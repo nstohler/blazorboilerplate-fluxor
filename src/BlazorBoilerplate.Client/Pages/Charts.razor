@@ -1,0 +1,21 @@
+﻿@page "/charts"
+@*@attribute [Authorize] Uncomment to Secure this page*@
+@inject HttpClient Http
+@inject IMatToaster matToaster
+@inject IJSRuntime JSRuntime
+
+<h1>Charts</h1>
+
+<button type="button" class="btn btn-primary" @onclick="CreateAmChart">Trigger JavaScript Prompt</button>
+
+<div id="chartdiv" style="width: 900px; height: 800px;"></div>
+
+@code {
+
+    public async Task CreateAmChart()
+    {
+
+        await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.createAmChartSample");
+    }
+
+}
