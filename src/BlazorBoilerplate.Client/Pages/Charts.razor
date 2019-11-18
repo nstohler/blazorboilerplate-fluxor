@@ -1,21 +1,67 @@
 ﻿@page "/charts"
+@page "/charts/{chartId:int}"
+@page "/charts/{chartId:int}/{action}"
 @*@attribute [Authorize] Uncomment to Secure this page*@
 @inject HttpClient Http
 @inject IMatToaster matToaster
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h1>Charts</h1>
 
+<button type="button" class="btn btn-primary" @onclick="TestRouter1">Test Router 1</button>
 <button type="button" class="btn btn-primary" @onclick="CreateAmChart">Trigger JavaScript Prompt</button>
+
+<div>
+    <ul>
+        <li>chartId: @ChartId</li>
+        <li>action: @Action</li>
+    </ul>
+</div>
+
+<SubNavTest ChartId="@ChartId" Action="@Action"></SubNavTest>
 
 <div id="chartdiv" style="width: 900px; height: 800px;"></div>
 
 @code {
 
+    [Parameter]
+    public int ChartId { get; set; }
+
+    [Parameter]
+    public string Action { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        Console.WriteLine($"OnParametersSetAsync chartId: {ChartId} / {Action}");
+        return base.OnParametersSetAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Console.WriteLine("first render");
+            await CreateAmChart();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+
+    }
+
     public async Task CreateAmChart()
     {
 
-        await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.createAmChartSample");
+        //await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.createAmChartSample");
+        await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.createAmChartXySample");
     }
+
+    public async Task TestRouter1()
+    {
+        var id = new Random().Next(100);
+        NavigationManager.NavigateTo($"charts/{id}/{Action}");
+    }
+
+    // todo: add subcomponent, change url (with navigateto) there in on parameters change... or on button click
 
 }

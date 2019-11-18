@@ -1,0 +1,35 @@
+﻿@inject NavigationManager NavigationManager
+
+<hr />
+<div>
+    SubNavTest: <button type="button" class="btn btn-primary" @onclick="TestSubRouter1">Test Sub Router 1</button>
+</div>
+<div>
+    <ul>
+        <li>chartId: @ChartId</li>
+        <li>action: @Action</li>
+    </ul>
+</div>
+<hr />
+
+@code
+{
+    [Parameter]
+    public int ChartId { get; set; }
+
+    [Parameter]
+    public string Action { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        Console.WriteLine($"SubNavTest OnParametersSetAsync: {ChartId} | {Action}");
+        return base.OnParametersSetAsync();
+    }
+
+    private async Task TestSubRouter1()
+    {
+        var action = Action == "edit" ? "details" : "edit";
+        NavigationManager.NavigateTo($"charts/{ChartId}/{action}");
+    }
+
+}
