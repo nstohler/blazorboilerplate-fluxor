@@ -21,6 +21,9 @@
 
 <SubNavTest ChartId="@ChartId" Action="@Action"></SubNavTest>
 
+<button type="button" class="btn btn-primary" @onclick="SetChartData">Set Chart Data</button> <br />
+<button type="button" class="btn btn-primary" @onclick="DumpParameters">Dump Parameters</button>
+
 <div id="chartdiv" style="width: 900px; height: 800px;"></div>
 
 @code {
@@ -56,6 +59,53 @@
         await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.createAmChartXySample");
     }
 
+    public async Task SetChartData()
+    {
+        var countries = new List<string>
+        {
+            "Switzerland", "Austria", "Germany", "Finland", "Sweden", "Canada"
+        };
+
+        var param = new List<ChartData>();
+        var rnd = new Random();
+
+        foreach (var country in countries)
+        {
+            var chartData = new ChartData
+            {
+                Country = country,
+                Litres = rnd.NextDouble() * 100.0,
+                Units = rnd.NextDouble() * rnd.Next(50, 200),
+            };
+            param.Add(chartData);
+        }
+
+        await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.setChartData", param);
+    }
+
+    public async Task DumpParameters()
+    {
+        // var param = "this is a test";
+
+        var param = new List<ChartData>()
+        {
+            new ChartData()
+            {
+                Country = "Switzerland",
+                Litres = 111.123,
+                Units = 1.75
+            },
+            new ChartData()
+            {
+                Country = "Austria",
+                Litres = 203.13,
+                Units = 3.421
+            },
+        };
+
+        await JSRuntime.InvokeVoidAsync("amChartsJsFunctions.dumpParameters", param);
+    }
+
     public async Task TestRouter1()
     {
         var id = new Random().Next(100);
@@ -64,4 +114,10 @@
 
     // todo: add subcomponent, change url (with navigateto) there in on parameters change... or on button click
 
+    internal class ChartData
+    {
+        public string Country { get; set; }
+        public double Litres { get; set; }
+        public double Units { get; set; }
+    }
 }

@@ -18,37 +18,37 @@
         series.dataFields.category = "country";
 
         // Add data
-                chart.data = [{
-                    "country": "Lithuania",
-                    "litres": 501.9
-                }, {
-                    "country": "Czech Republic",
-                    "litres": 301.9
-                }, {
-                    "country": "Ireland",
-                    "litres": 201.1
-                }, {
-                    "country": "Germany",
-                    "litres": 165.8
-                }, {
-                    "country": "Australia",
-                    "litres": 139.9
-                }, {
-                    "country": "Austria",
-                    "litres": 128.3
-                }, {
-                    "country": "UK",
-                    "litres": 99
-                }, {
-                    "country": "Belgium",
-                    "litres": 60
-                }, {
-                    "country": "The Netherlands",
-                    "litres": 50
-                }];
+        chart.data = [{
+            "country": "Lithuania",
+            "litres": 501.9
+        }, {
+            "country": "Czech Republic",
+            "litres": 301.9
+        }, {
+            "country": "Ireland",
+            "litres": 201.1
+        }, {
+            "country": "Germany",
+            "litres": 165.8
+        }, {
+            "country": "Australia",
+            "litres": 139.9
+        }, {
+            "country": "Austria",
+            "litres": 128.3
+        }, {
+            "country": "UK",
+            "litres": 99
+        }, {
+            "country": "Belgium",
+            "litres": 60
+        }, {
+            "country": "The Netherlands",
+            "litres": 50
+        }];
 
         // And, for a good measure, let's add a legend
-                chart.legend = new am4charts.Legend();
+        chart.legend = new am4charts.Legend();
     },
 
     createAmChartXySample: function() {
@@ -56,6 +56,7 @@
         this.resetAmChart();
 
         var chart = am4core.create("chartdiv", am4charts.XYChart);
+        this.myChart = chart;
 
         // Add data
         chart.data = [{
@@ -121,13 +122,26 @@
 
     },
 
+    setChartData: function(chartData) {
+        console.log(chartData);
+        if (this.myChart) {
+            console.log('setting chart data');
+            this.myChart.data = chartData;
+        }
+    },
+
     resetAmChart: function() {
         if (this.myChart) {
             this.myChart.dispose();
         }
 
         this.myChart = null;
-    }
+    },
+
+    dumpParameters: function(value) {
+        console.log(value);
+
+    },
 
     
 
