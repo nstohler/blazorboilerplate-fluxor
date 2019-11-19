@@ -11,7 +11,14 @@ namespace BlazorBoilerplate.Client.Store.Counter
     {
         public override CounterState Reduce(CounterState state, IncrementCounterAction action)
         {
-            return new CounterState(state.CurrentCount + 1);
+            return new CounterState(
+                true,
+                false, 
+                null,
+                state.CurrentCount
+                //-1
+                //state.CurrentCount + 1
+                );
         }
     }
 }

@@ -22,31 +22,47 @@
 
 <MatFAB icon="exposure_plus_1" @onclick="@IncrementCount"></MatFAB>
 
+@if (CounterState.Value.ErrorMessage != null)
+{
+    <h1>Error</h1>
+    <p>@CounterState.Value.ErrorMessage</p>
+}
+
 <p>
-    Current Page Count: <strong>@CounterState.Value.CurrentCount</strong>
+    Current Page Count:
+    @if (CounterState.Value.IsLoading)
+    {
+        <em>Loading...</em>
+    }
+    else if (CounterState.Value.IsLoaded)
+    {
+        <strong>@CounterState.Value.CurrentCount</strong>
+    }
+    <hr />
+    <strong>@CounterState.Value.CurrentCount</strong>
     <br />
     Current User Profile / Persistent Count: <strong>@if (@profileCurrentCount != -1)@profileCurrentCount</strong>
 </p>
 
-<p>
-    There is a "User Profile" for persistant user data built into Blazor Boilerplate. This is a bit of hack until Microsoft or others create that functionality.
-    Currently we store Sidebar Navigation settings, Count. In the future I would like to track the users last page but I don't see much for <br />
-</p>
+    <p>
+        There is a "User Profile" for persistant user data built into Blazor Boilerplate. This is a bit of hack until Microsoft or others create that functionality.
+        Currently we store Sidebar Navigation settings, Count. In the future I would like to track the users last page but I don't see much for <br />
+    </p>
 
-@code {
+    @code {
 
-    int profileCurrentCount = -1;
+        int profileCurrentCount = -1;
 
-    protected override async Task OnInitializedAsync()
-    {
-        profileCurrentCount = await appState.GetUserProfileCount();
+        protected override async Task OnInitializedAsync()
+        {
+            profileCurrentCount = await appState.GetUserProfileCount();
+        }
+
+        public async Task IncrementCount()
+        {
+            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
+
+            profileCurrentCount++;
+            await appState.UpdateUserProfileCount(profileCurrentCount);
+        }
     }
-
-    public async Task IncrementCount()
-    {
-        Dispatcher.Dispatch(new IncrementCounterAction());
-
-        profileCurrentCount++;
-        await appState.UpdateUserProfileCount(profileCurrentCount);
-    }
-}
