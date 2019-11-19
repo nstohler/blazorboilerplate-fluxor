@@ -1,8 +1,11 @@
 ﻿@inject NavigationManager NavigationManager
+@using Microsoft.AspNetCore.WebUtilities
 
 <hr />
 <div>
-    SubNavTest: <button type="button" class="btn btn-primary" @onclick="TestSubRouter1">Test Sub Router 1</button>
+    SubNavTest:  <br />
+    <button type="button" class="btn btn-primary" @onclick="TestSubRouter1">Test Sub Router 1</button> <br />
+    <button type="button" class="btn btn-primary" @onclick="TestSubRouterQueryString">Test Sub Router QueryString</button> <br />
 </div>
 <div>
     <ul>
@@ -31,5 +34,18 @@
         var action = Action == "edit" ? "details" : "edit";
         NavigationManager.NavigateTo($"charts/{ChartId}/{action}");
     }
+
+    private void TestSubRouterQueryString()
+    {
+        // https://www.mikesdotnetting.com/article/340/working-with-query-strings-in-blazor
+        var query = new Dictionary<string, string>
+    {
+            {"wusel", "dusel"},
+            {"hans", "wurst"}
+        };
+        NavigationManager.NavigateTo(QueryHelpers.AddQueryString(NavigationManager.Uri, query));
+    }
+
+
 
 }
