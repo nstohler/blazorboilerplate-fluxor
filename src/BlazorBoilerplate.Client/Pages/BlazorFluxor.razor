@@ -1,0 +1,77 @@
+﻿@page "/blazor-fluxor"
+
+@attribute [Authorize]
+
+@using Blazor.Fluxor
+@using BlazorBoilerplate.Client.Store.Counter
+@using BlazorBoilerplate.Client.Store.FetchToDo
+
+@inject AppState appState
+@inject IDispatcher Dispatcher
+@inject IState<CounterState> CounterState
+@inject IState<FetchToDoItemsState> FetchToDoItemsState
+
+@inherits Blazor.Fluxor.Components.FluxorComponent
+
+<h1>Blazor.Fluxor Redux</h1>
+
+<h2>Counter</h2>
+
+<MatFAB icon="exposure_plus_1" @onclick="@IncrementCount"></MatFAB>
+
+@if (CounterState.Value.ErrorMessage != null)
+{
+    <h1>Counter Error</h1>
+    <p>@CounterState.Value.ErrorMessage</p>
+}
+
+@if (FetchToDoItemsState.Value.ErrorMessage != null)
+{
+    <h1>FetchToDoItemsState Error</h1>
+    <p>@FetchToDoItemsState.Value.ErrorMessage</p>
+}
+
+<p>
+    Current Page Count:
+    @if (CounterState.Value.IsLoading)
+    {
+        <em>Loading...</em>
+    }
+    else if (CounterState.Value.IsLoaded)
+    {
+        <strong>@CounterState.Value.CurrentCount</strong>
+    }
+    <hr />
+    <strong>@CounterState.Value.CurrentCount</strong>
+</p>
+
+<p>
+    ToDoItems: <br />
+    @if (FetchToDoItemsState.Value.IsLoading)
+    {
+        <em>Loading ToDos...</em>
+    }        
+    @if (FetchToDoItemsState.Value.ToDoItems != null)
+    {
+        <ul>
+            @foreach (var toDo in FetchToDoItemsState.Value.ToDoItems)
+            {
+                <li>@toDo.Id | @toDo.Title | @toDo.IsCompleted</li>
+            }
+        </ul>
+    }
+</p>
+
+@code 
+{
+
+    protected override void OnInitialized()
+    {
+        Dispatcher.Dispatch(new GetToDoItemsAction());
+    }
+
+    public async Task IncrementCount()
+    {
+        Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
+    }
+}

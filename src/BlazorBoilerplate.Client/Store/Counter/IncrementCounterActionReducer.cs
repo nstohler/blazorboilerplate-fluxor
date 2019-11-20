@@ -7,7 +7,7 @@ using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
-    public class IncrementCounterReducer : Reducer<CounterState, IncrementCounterAction>
+    public class IncrementCounterActionReducer : Reducer<CounterState, IncrementCounterAction>
     {
         public override CounterState Reduce(CounterState state, IncrementCounterAction action)
         {
