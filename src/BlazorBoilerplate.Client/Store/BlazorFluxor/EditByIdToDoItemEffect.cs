@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.FetchToDo;
-using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 {
-    public class SelectToDoItemEffect : Effect<SelectToDoItemAction>
+    public class EditByIdToDoItemEffect : Effect<EditByIdToDoItemAction>
     {
         private readonly IState<FetchToDoItemsState> _fetchToDoItemsState;
 
-        public SelectToDoItemEffect(IState<FetchToDoItemsState> fetchToDoItemsState)
+        public EditByIdToDoItemEffect(IState<FetchToDoItemsState> fetchToDoItemsState)
         {
             _fetchToDoItemsState = fetchToDoItemsState;
         }
 
-        protected override async Task HandleAsync(SelectToDoItemAction action, IDispatcher dispatcher)
+        protected override Task HandleAsync(EditByIdToDoItemAction action, IDispatcher dispatcher)
         {
             try
             {
                 // check if loaded (possible)?
                 var item = _fetchToDoItemsState.Value.ToDoItems.SingleOrDefault(x => x.Id == action.ToDoId);
+
+                //dispatcher.Dispatch(new SelectToDoDetailAction(item));
 
                 // create a copy for editing so the original doesnt change!
                 // alt: use https://github.com/AlenToma/FastDeepCloner
@@ -41,10 +42,10 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 
                 var clonedItem = FastDeepCloner.DeepCloner.Clone(item);
 
-                //dispatcher.Dispatch(new SelectEditToDoAction(editCopy));
-                dispatcher.Dispatch(new SelectEditToDoAction(clonedItem));
+                //dispatcher.Dispatch(new EditByRefToDoEditAction(editCopy));
+                dispatcher.Dispatch(new EditByRefToDoEditAction(clonedItem));
 
-                await Task.Delay(0);
+                return Task.CompletedTask;
             }
             catch (Exception e)
             {

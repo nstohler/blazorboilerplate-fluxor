@@ -7,12 +7,14 @@ using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 {
-    public class SelectEditToDoActionReducer : Reducer<BlazorFluxorState, SelectEditToDoAction>
+    public class EditByRefToDoEditActionReducer : Reducer<BlazorFluxorState, EditByRefToDoEditAction>
     {
-        public override BlazorFluxorState Reduce(BlazorFluxorState state, SelectEditToDoAction action)
+        public override BlazorFluxorState Reduce(BlazorFluxorState state, EditByRefToDoEditAction action)
         {
             return new BlazorFluxorState(
-                state.SelectedToDoId,
+                state.DetailToDoId,
+                state.DetailToDoDto,
+                state.EditToDoId,
                 action.TodoDto
                 );
         }

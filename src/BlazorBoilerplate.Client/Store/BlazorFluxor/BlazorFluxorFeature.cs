@@ -12,8 +12,10 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor
         public override string GetName() => "BlazorFluxorComponent";
         
         protected override BlazorFluxorState GetInitialState() => new BlazorFluxorState(
+            null,
             null, 
+            null,
             null
-            );
+        );
     }
 }

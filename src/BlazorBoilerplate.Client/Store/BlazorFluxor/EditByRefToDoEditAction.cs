@@ -7,11 +7,11 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 {
-    public class SelectEditToDoAction
+    public class EditByRefToDoEditAction
     {
         public TodoDto TodoDto { get; private set; }
 
-        public SelectEditToDoAction(TodoDto todoDto)
+        public EditByRefToDoEditAction(TodoDto todoDto)
         {
             TodoDto = todoDto;
         }

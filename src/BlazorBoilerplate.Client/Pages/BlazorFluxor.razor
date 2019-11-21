@@ -53,18 +53,41 @@
     @if (FetchToDoItemsState.Value.IsLoading)
     {
         <em>Loading ToDos...</em>
-    }        
+    }
     @if (FetchToDoItemsState.Value.ToDoItems != null)
     {
         <ul>
             @foreach (var toDo in FetchToDoItemsState.Value.ToDoItems)
             {
-                <li @onclick="@(() => Dispatcher.Dispatch(new SelectToDoItemAction(toDo.Id)))">@toDo.Id | @toDo.Title | @toDo.IsCompleted</li>
+                <li>
+                    @toDo.Id | @toDo.Title | @toDo.IsCompleted || actions: 
+                    <span @onclick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(toDo.Id)))">details</span> | 
+                    <span @onclick="@(() => Dispatcher.Dispatch(new EditByIdToDoItemAction(toDo.Id)))">edit</span>
+</li>
             }
         </ul>
-        <span>
-            selected: @BlazorFluxorState.Value.SelectedToDoId
-        </span>
+
+        <div>
+            selected-detail: @BlazorFluxorState.Value.DetailToDoId <br />
+            selected-edit: @BlazorFluxorState.Value.EditToDoId
+        </div>
+
+        <hr />
+
+        @if (BlazorFluxorState.Value.DetailToDoDto != null)
+        {
+            <div>
+                <h5>Detail ToDo:</h5>
+                <div>
+                    Id: @BlazorFluxorState.Value.DetailToDoDto.Id <br />
+                    Title: @BlazorFluxorState.Value.DetailToDoDto.Title <br />
+                    Completed: @BlazorFluxorState.Value.DetailToDoDto.IsCompleted
+                </div>
+            </div>
+        }
+
+        <hr />
+        
         @if (BlazorFluxorState.Value.EditToDoDto != null)
         {
             <h5>Edit ToDo:</h5>
@@ -72,10 +95,10 @@
                 Id: @BlazorFluxorState.Value.EditToDoDto.Id <br />
                 Title: @BlazorFluxorState.Value.EditToDoDto.Title <br />
                 <span @onclick="@(() => BlazorFluxorState.Value.EditToDoDto.IsCompleted = !BlazorFluxorState.Value.EditToDoDto.IsCompleted)">
-                    Completed: @BlazorFluxorState.Value.EditToDoDto.IsCompleted 
+                    Completed: @BlazorFluxorState.Value.EditToDoDto.IsCompleted
                 </span>
             </div>
-            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> <br/>
+            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> <br />
             <MatButton Icon="playlist_add" Label="Cancel" OnClick="@((e) => CancelSelection())" Raised="true"></MatButton>
 
         }
@@ -120,7 +143,7 @@
 
     private void CancelSelection()
     {
-        Dispatcher.Dispatch(new SelectToDoItemAction(null));
+        Dispatcher.Dispatch(new EditByIdToDoItemAction(null));
     }
 
 }

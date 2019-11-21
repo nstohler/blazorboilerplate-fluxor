@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 {
-    public class SelectToDoItemAction
+    public class EditByIdToDoItemAction
     {
         public long? ToDoId { get; private set; }
 
-        public SelectToDoItemAction(long? doId)
+        public EditByIdToDoItemAction(long? doId)
         {
             ToDoId = doId;
         }

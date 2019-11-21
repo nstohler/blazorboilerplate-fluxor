@@ -14,11 +14,18 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
         protected override Task HandleAsync(UpsertToDoItemSuccessAction action, IDispatcher dispatcher)
         {
             // clear selection:
-            dispatcher.Dispatch(new SelectToDoItemAction(null));
+            dispatcher.Dispatch(new EditByIdToDoItemAction(null));
+            // dispatcher.Dispatch(new DetailByIdToDoItemAction(null));
 
             // reload todo items
             //dispatcher.Dispatch(new GetToDoItemsAction());
             dispatcher.Dispatch(new UpdateToDoItemAction(action.TodoDto));
+
+            // special: set as active detail view item
+            // dispatcher.Dispatch(new DetailByIdToDoItemAction(action.TodoDto.Id));
+
+            // TODO: refresh active detail item (if it was set before!)
+            dispatcher.Dispatch(new RefreshDetailToDoItemAction(action.TodoDto.Id));
 
             return Task.CompletedTask;
         }
