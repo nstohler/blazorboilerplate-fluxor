@@ -8,13 +8,13 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo
     {
         public bool                   IsLoading    { get; private set; }
         public string                 ErrorMessage { get; private set; }
-        public ImmutableList<TodoDto> ToDoItems    { get; private set; }
+        public ImmutableList<TodoDto> ToDoItems { get; private set; }
 
-        public FetchToDoItemsState(bool isLoading, string errorMessage, IEnumerable<TodoDto> toDoItems)
+        public FetchToDoItemsState(bool isLoading, string errorMessage, ImmutableList<TodoDto> toDoItems)
         {
             IsLoading    = isLoading;
             ErrorMessage = errorMessage;
-            ToDoItems    = toDoItems?.ToImmutableList();
+            ToDoItems    = toDoItems;
         }
     }
 }

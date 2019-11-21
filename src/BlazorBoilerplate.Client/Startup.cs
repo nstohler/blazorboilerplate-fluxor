@@ -27,7 +27,8 @@ namespace BlazorBoilerplate.Client
             services.AddFluxor(options =>
             {
                 options.UseDependencyInjection(typeof(Startup).Assembly);
-                // TODO: add middleware later
+                options.AddMiddleware<Blazor.Fluxor.ReduxDevTools.ReduxDevToolsMiddleware>();
+                options.AddMiddleware<Blazor.Fluxor.Routing.RoutingMiddleware>();
             });
 
             services.AddScoped<IdentityAuthenticationStateProvider>();
