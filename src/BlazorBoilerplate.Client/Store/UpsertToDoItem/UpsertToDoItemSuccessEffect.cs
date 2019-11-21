@@ -17,7 +17,8 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
             dispatcher.Dispatch(new SelectToDoItemAction(null));
 
             // reload todo items
-            dispatcher.Dispatch(new GetToDoItemsAction());
+            //dispatcher.Dispatch(new GetToDoItemsAction());
+            dispatcher.Dispatch(new UpdateToDoItemAction(action.TodoDto));
 
             return Task.CompletedTask;
         }
