@@ -14,6 +14,7 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 
         protected override Task HandleAsync(RefreshDetailToDoItemAction action, IDispatcher dispatcher)
         {
+            // only refresh if the item was selected before!
             if (_blazorFluxorState.Value.DetailToDoId == action.ToDoId)
             {
                 dispatcher.Dispatch(new DetailByIdToDoItemAction(action.ToDoId));

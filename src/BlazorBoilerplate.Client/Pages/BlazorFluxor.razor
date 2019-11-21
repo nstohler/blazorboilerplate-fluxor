@@ -59,11 +59,11 @@
         <ul>
             @foreach (var toDo in FetchToDoItemsState.Value.ToDoItems)
             {
-                <li>
-                    @toDo.Id | @toDo.Title | @toDo.IsCompleted || actions: 
-                    <span @onclick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(toDo.Id)))">details</span> | 
-                    <span @onclick="@(() => Dispatcher.Dispatch(new EditByIdToDoItemAction(toDo.Id)))">edit</span>
-</li>
+            <li>
+                <span @onclick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(toDo.Id)))">details</span> |
+                <span @onclick="@(() => Dispatcher.Dispatch(new EditByIdToDoItemAction(toDo.Id)))">edit</span> :
+                @toDo.Id | @toDo.Title | @toDo.IsCompleted || actions:
+            </li>
             }
         </ul>
 
@@ -84,6 +84,7 @@
                     Completed: @BlazorFluxorState.Value.DetailToDoDto.IsCompleted
                 </div>
             </div>
+            <MatButton Icon="playlist_add" Label="Close Details" OnClick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(null)))" Raised="true"></MatButton>
         }
 
         <hr />
