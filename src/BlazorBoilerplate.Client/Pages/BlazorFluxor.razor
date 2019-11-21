@@ -7,6 +7,7 @@
 @using BlazorBoilerplate.Client.Store.Counter
 @using BlazorBoilerplate.Client.Store.FetchToDo
 @using BlazorBoilerplate.Client.Store.FetchToDo.UpsertToDoItem
+@using BlazorBoilerplate.Client.Store.UpsertToDoItem
 
 @inject AppState appState
 @inject IDispatcher Dispatcher
@@ -59,11 +60,11 @@
         <ul>
             @foreach (var toDo in FetchToDoItemsState.Value.ToDoItems)
             {
-            <li>
-                <span @onclick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(toDo.Id)))">details</span> |
-                <span @onclick="@(() => Dispatcher.Dispatch(new EditByIdToDoItemAction(toDo.Id)))">edit</span> :
-                @toDo.Id | @toDo.Title | @toDo.IsCompleted || actions:
-            </li>
+                <li>
+                    <span @onclick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(toDo.Id)))">details</span> |
+                    <span @onclick="@(() => Dispatcher.Dispatch(new EditByIdToDoItemAction(toDo.Id)))">edit</span> :
+                    @toDo.Id | @toDo.Title | @toDo.IsCompleted
+                </li>
             }
         </ul>
 
@@ -88,7 +89,7 @@
         }
 
         <hr />
-        
+
         @if (BlazorFluxorState.Value.EditToDoDto != null)
         {
             <h5>Edit ToDo:</h5>
@@ -101,7 +102,9 @@
             </div>
             <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> <br />
             <MatButton Icon="playlist_add" Label="Cancel" OnClick="@((e) => CancelSelection())" Raised="true"></MatButton>
-
+            <br />
+            <br />
+            <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(BlazorFluxorState.Value.EditToDoDto)))" Raised="true"></MatButton>
         }
     }
 </p>
