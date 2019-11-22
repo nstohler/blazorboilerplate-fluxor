@@ -8,6 +8,7 @@
 @using BlazorBoilerplate.Client.Store.FetchToDo
 @using BlazorBoilerplate.Client.Store.FetchToDo.UpsertToDoItem
 @using BlazorBoilerplate.Client.Store.UpsertToDoItem
+@using BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
 
 @inject AppState appState
 @inject IDispatcher Dispatcher
@@ -49,7 +50,7 @@
 
 <MatFAB icon="exposure_plus_1" @onclick="@LoadToDos"></MatFAB>
 
-<p>
+<div>
     ToDoItems: <br />
     @if (FetchToDoItemsState.Value.IsLoading)
     {
@@ -106,11 +107,29 @@
             <br />
             <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(BlazorFluxorState.Value.EditToDoDto)))" Raised="true"></MatButton>
         }
+
+        <hr />
+
+        <h5>Add new ToDo item:</h5>
+        <EditForm Model="@addTodo" OnValidSubmit="@CreateTodo">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <fieldset>
+                <div class="form-group">
+                    <MatTextField @bind-Value="@addTodo.Title" Label="Title" Icon="title" IconTrailing="true" FullWidth="true" Required="true"></MatTextField>
+                </div>
+                <div class="form-group">
+                    <MatCheckbox @bind-Checked="@addTodo.IsCompleted" Label="Completed"></MatCheckbox>
+                </div>
+            </fieldset>
+            <MatButton type="submit" name="action">Create</MatButton>
+        </EditForm>
     }
-</p>
+</div>
 
 @code 
 {
+    TodoDto addTodo { get; set; } = new TodoDto();
 
     protected override void OnInitialized()
     {
@@ -130,12 +149,12 @@
         }
     }
 
-    public async Task IncrementCount()
+    public void IncrementCount()
     {
         Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
     }
 
-    public async Task LoadToDos()
+    public void LoadToDos()
     {
         Dispatcher.Dispatch(new GetToDoItemsAction());
     }
@@ -148,6 +167,11 @@
     private void CancelSelection()
     {
         Dispatcher.Dispatch(new EditByIdToDoItemAction(null));
+    }
+
+    private void CreateTodo()
+    {
+        Dispatcher.Dispatch(new CreateNewToDoItemAction(this.addTodo));
     }
 
 }
