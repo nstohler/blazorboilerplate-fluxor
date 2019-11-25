@@ -1,22 +1,11 @@
 ﻿@page "/blazor-fluxor"
 
-@attribute [Authorize]
-
-@using Blazor.Fluxor
 @using BlazorBoilerplate.Client.Store.BlazorFluxor
-@using BlazorBoilerplate.Client.Store.Counter
-@using BlazorBoilerplate.Client.Store.FetchToDo
-@using BlazorBoilerplate.Client.Store.FetchToDo.UpsertToDoItem
+@using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById
+@using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
 @using BlazorBoilerplate.Client.Store.UpsertToDoItem
-@using BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
-
-@inject AppState appState
-@inject IDispatcher Dispatcher
-@inject IState<CounterState> CounterState
-@inject IState<FetchToDoItemsState> FetchToDoItemsState
-@inject IState<BlazorFluxorState> BlazorFluxorState
-
-@inherits Blazor.Fluxor.Components.FluxorComponent
+@using BlazorBoilerplate.Client.Store.UpsertToDoItem.Delete
+@inherits BlazorFluxorBase
 
 <h1>Blazor.Fluxor Redux</h1>
 
@@ -101,7 +90,12 @@
                     Completed: @BlazorFluxorState.Value.EditToDoDto.IsCompleted
                 </span>
             </div>
-            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> <br />
+            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> 
+            @if (UpsertToDoItemState.Value.IsUpdating)
+            {
+                <text>working...</text>
+            }
+            <br />
             <MatButton Icon="playlist_add" Label="Cancel" OnClick="@((e) => CancelSelection())" Raised="true"></MatButton>
             <br />
             <br />
@@ -126,52 +120,3 @@
         </EditForm>
     }
 </div>
-
-@code 
-{
-    TodoDto addTodo { get; set; } = new TodoDto();
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        //CounterState.Subscribe(this);
-        //FetchToDoItemsState.Subscribe(this);
-
-        //FetchToDoItemsState.StateChanged += (sender, state) =>
-        //{
-        //    Console.WriteLine("ToDoItem state has changed!");
-        //};
-
-        if (FetchToDoItemsState.Value.ToDoItems == null)
-        {
-            Dispatcher.Dispatch(new GetToDoItemsAction());
-        }
-    }
-
-    public void IncrementCount()
-    {
-        Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
-    }
-
-    public void LoadToDos()
-    {
-        Dispatcher.Dispatch(new GetToDoItemsAction());
-    }
-
-    public void UpdateTodo(TodoDto toDoItem)
-    {
-        Dispatcher.Dispatch(new UpsertToDoItemAction(toDoItem));
-    }
-
-    private void CancelSelection()
-    {
-        Dispatcher.Dispatch(new EditByIdToDoItemAction(null));
-    }
-
-    private void CreateTodo()
-    {
-        Dispatcher.Dispatch(new CreateNewToDoItemAction(this.addTodo));
-    }
-
-}
