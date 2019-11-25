@@ -91,7 +91,7 @@
                 </span>
             </div>
             <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> 
-            @if (UpsertToDoItemState.Value.IsUpdating)
+            @if (UpsertToDoItemState.Value.IsProcessing)
             {
                 <text>working...</text>
             }

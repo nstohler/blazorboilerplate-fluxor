@@ -2,9 +2,9 @@
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor.EditByRef
 {
-    public class EditByRefToDoEditActionReducer : Reducer<BlazorFluxorState, EditByRefToDoEditAction>
+    public class EditByRefToDoEditActionReducer : Reducer<IBlazorFluxorState, EditByRefToDoEditAction>
     {
-        public override BlazorFluxorState Reduce(BlazorFluxorState state, EditByRefToDoEditAction action)
+        public override IBlazorFluxorState Reduce(IBlazorFluxorState state, EditByRefToDoEditAction action)
         {
             return new BlazorFluxorState(
                 state.DetailToDoId,

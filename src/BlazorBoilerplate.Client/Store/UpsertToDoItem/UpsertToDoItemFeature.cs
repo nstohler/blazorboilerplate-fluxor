@@ -7,10 +7,11 @@ using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
 {
-    public class UpsertToDoItemFeature : Feature<UpsertToDoItemState>
+    public class UpsertToDoItemFeature : Feature<IUpsertToDoItemState>
     {
         public override string GetName() => "UpsertToDoItem";
 
-        protected override UpsertToDoItemState GetInitialState() => new UpsertToDoItemState(false, null, null);
+        //protected override IUpsertToDoItemState GetInitialState() => new UpsertToDoItemState(false, null, null, ToDoItemOperation.None);
+        protected override IUpsertToDoItemState GetInitialState() => UpsertToDoItemState.CreateNew();
     }
 }

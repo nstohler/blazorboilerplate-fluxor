@@ -2,9 +2,9 @@
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById
 {
-    public class DetailByIdToDoItemActionReducer : Reducer<BlazorFluxorState, DetailByIdToDoItemAction>
+    public class DetailByIdToDoItemActionReducer : Reducer<IBlazorFluxorState, DetailByIdToDoItemAction>
     {
-        public override BlazorFluxorState Reduce(BlazorFluxorState state, DetailByIdToDoItemAction action)
+        public override IBlazorFluxorState Reduce(IBlazorFluxorState state, DetailByIdToDoItemAction action)
         {
             return new BlazorFluxorState(action.ToDoItemId, 
                 null, 

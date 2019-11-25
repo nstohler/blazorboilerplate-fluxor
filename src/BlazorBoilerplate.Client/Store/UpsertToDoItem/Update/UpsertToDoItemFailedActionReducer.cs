@@ -2,9 +2,9 @@
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Update
 {
-    public class UpsertToDoItemFailedActionReducer : Reducer<UpsertToDoItemState, UpsertToDoItemFailedAction>
+    public class UpsertToDoItemFailedActionReducer : Reducer<IUpsertToDoItemState, UpsertToDoItemFailedAction>
     {
-        public override UpsertToDoItemState Reduce(UpsertToDoItemState state, UpsertToDoItemFailedAction action)
+        public override IUpsertToDoItemState Reduce(IUpsertToDoItemState state, UpsertToDoItemFailedAction action)
         {
             return new UpsertToDoItemState(false, null, action.ErrorMessage);
         }

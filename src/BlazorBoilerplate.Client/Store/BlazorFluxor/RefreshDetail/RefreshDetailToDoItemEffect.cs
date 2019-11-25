@@ -6,9 +6,9 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor.RefreshDetail
 {
     public class RefreshDetailToDoItemEffect : Effect<RefreshDetailToDoItemAction>
     {
-        private readonly IState<BlazorFluxorState> _blazorFluxorState;
+        private readonly IState<IBlazorFluxorState> _blazorFluxorState;
 
-        public RefreshDetailToDoItemEffect(IState<BlazorFluxorState> blazorFluxorState)
+        public RefreshDetailToDoItemEffect(IState<IBlazorFluxorState> blazorFluxorState)
         {
             _blazorFluxorState = blazorFluxorState;
         }

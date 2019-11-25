@@ -7,7 +7,7 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.BlazorFluxor
 {
-    public class BlazorFluxorState
+    public class BlazorFluxorState : IBlazorFluxorState
     {
         public BlazorFluxorState(long? detailToDoId, TodoDto detailToDoDto, long? editToDoId, TodoDto editToDoDto)
         {
@@ -25,5 +25,13 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor
         public TodoDto EditToDoDto { get; private set; }
 
         
+    }
+
+    public interface IBlazorFluxorState
+    {
+        long? DetailToDoId { get; }
+        TodoDto DetailToDoDto { get; }
+        long? EditToDoId { get; }
+        TodoDto EditToDoDto { get; }
     }
 }

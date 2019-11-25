@@ -28,8 +28,8 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected IDispatcher                 Dispatcher          { get; set; }
         [Inject] protected IState<ICounterState>       CounterState        { get; set; }
         [Inject] protected IState<FetchToDoItemsState> FetchToDoItemsState { get; set; }
-        [Inject] protected IState<BlazorFluxorState>   BlazorFluxorState   { get; set; }
-        [Inject] protected IState<UpsertToDoItemState> UpsertToDoItemState { get; set; }
+        [Inject] protected IState<IBlazorFluxorState>   BlazorFluxorState   { get; set; }
+        [Inject] protected IState<IUpsertToDoItemState> UpsertToDoItemState { get; set; }
 
         protected TodoDto addTodo { get; set; } = new TodoDto();
 
@@ -49,11 +49,11 @@ namespace BlazorBoilerplate.Client.Pages
             }
         }
 
-        private void OnUpsertToDoItemStateOnStateChanged(object sender, UpsertToDoItemState e)
+        private void OnUpsertToDoItemStateOnStateChanged(object sender, IUpsertToDoItemState e)
         {
-            //Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsUpdating} - {e.IsUpdating} | {sender.ToString()} | {sender.GetType().Name}");
-            Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsUpdating} - {e.IsUpdating}");
-            if (!e.IsUpdating && e.ErrorMessage == null)
+            //Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsProcessing} - {e.IsProcessing} | {sender.ToString()} | {sender.GetType().Name}");
+            Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsProcessing} - {e.IsProcessing}");
+            if (!e.IsProcessing && e.ErrorMessage == null)
             {
                 // insert/update/delete just completed
                 // show a toast or something...

@@ -2,15 +2,15 @@
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Delete
 {
-    public class DeleteToDoItemFailedActionReducer: Reducer<UpsertToDoItemState, DeleteToDoItemFailedAction>
-    {
-        public override UpsertToDoItemState Reduce(UpsertToDoItemState state, DeleteToDoItemFailedAction action)
-        {
-            return new UpsertToDoItemState(
-                false, 
-                state.TodoDto, 
-                action.ErrorMessage
-            );
-        }
-    }
+    //public class DeleteToDoItemFailedActionReducer: Reducer<IUpsertToDoItemState, DeleteToDoItemFailedAction>
+    //{
+    //    public override IUpsertToDoItemState Reduce(IUpsertToDoItemState state, DeleteToDoItemFailedAction action)
+    //    {
+    //        return new UpsertToDoItemState(
+    //            false, 
+    //            state.TodoDto, 
+    //            action.ErrorMessage
+    //        );
+    //    }
+    //}
 }

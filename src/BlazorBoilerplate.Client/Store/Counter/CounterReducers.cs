@@ -15,24 +15,52 @@ namespace BlazorBoilerplate.Client.Store.Counter
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterAction action)
         {
-            return new CounterState(
-                true,
-                false,
-                null,
-                state.CurrentCount
-            );
+            var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
+
+            // only changes need to be done here now
+            newState.IsLoading = true;
+            newState.IsLoaded = false;
+            newState.ErrorMessage = null;
+            
+            return newState;
+            //return new CounterState(
+            //    true,
+            //    false,
+            //    null,
+            //    state.CurrentCount
+            //);
         }
 
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterFailedAction action)
         {
-            return new CounterState(false, false, action.ErrorMessage, -1);
+            var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
+
+            // only changes need to be done here now
+            newState.IsLoading    = false;
+            newState.IsLoaded     = false;
+            newState.ErrorMessage = action.ErrorMessage;
+            newState.CurrentCount = 0;
+
+            return newState;
+
+            //return new CounterState(false, false, action.ErrorMessage, -1);
         }
 
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterSuccessAction action)
         {
-            return new CounterState(false, true, null, action.ServerCount);
+            //return new CounterState(false, true, null, action.ServerCount);
+         
+            var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
+
+            // only changes need to be done here now
+            newState.IsLoading    = false;
+            newState.IsLoaded     = true;
+            newState.ErrorMessage = null;
+            newState.CurrentCount = action.ServerCount;
+
+            return newState;
         }
 
     }

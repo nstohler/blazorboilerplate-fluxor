@@ -7,11 +7,11 @@ using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
 {
-    public class CreateNewToDoItemFailedReducer : Reducer<UpsertToDoItemState, CreateNewToDoItemFailedAction>
-    {
-        public override UpsertToDoItemState Reduce(UpsertToDoItemState state, CreateNewToDoItemFailedAction action)
-        {
-            return new UpsertToDoItemState(false, null, action.ErrorMessage);
-        }
-    }
+    //public class CreateNewToDoItemFailedReducer : Reducer<IUpsertToDoItemState, CreateNewToDoItemFailedAction>
+    //{
+    //    public override IUpsertToDoItemState Reduce(IUpsertToDoItemState state, CreateNewToDoItemFailedAction action)
+    //    {
+    //        return new UpsertToDoItemState(false, null, action.ErrorMessage);
+    //    }
+    //}
 }

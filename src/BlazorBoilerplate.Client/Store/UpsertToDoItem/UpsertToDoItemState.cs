@@ -7,22 +7,45 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
 {
-    public class UpsertToDoItemState
+    public class UpsertToDoItemState : IUpsertToDoItemState
     {
         // allow setters / use interface?
 
         // TODO: rename to isProcessing?
-        public bool    IsUpdating   { get; private set; }
-        public TodoDto TodoDto      { get; private set; }   
-        public string  ErrorMessage { get; private set; }
+        public bool              IsProcessing      { get; set; }
+        public TodoDto           TodoDto           { get; set; }
+        public string            ErrorMessage      { get; set; }
+        public ToDoItemOperation ToDoItemOperation { get; set; }
 
         // TODO: add operation enum (create | update | delete)
 
-        public UpsertToDoItemState(bool isUpdating, TodoDto todoDto, string errorMessage)
+        public UpsertToDoItemState(bool isProcessing, TodoDto todoDto, string errorMessage,
+            ToDoItemOperation toDoItemOperation)
         {
-            IsUpdating   = isUpdating;
-            TodoDto      = todoDto;
-            ErrorMessage = errorMessage;
+            IsProcessing      = isProcessing;
+            TodoDto           = todoDto;
+            ErrorMessage      = errorMessage;
+            ToDoItemOperation = toDoItemOperation;
         }
+
+        public static UpsertToDoItemState CreateNew()
+        {
+            return new UpsertToDoItemState(false, null, null, ToDoItemOperation.None);
+        }
+    }
+
+    public interface IUpsertToDoItemState
+    {
+        bool    IsProcessing { get; }
+        TodoDto TodoDto      { get; }
+        string  ErrorMessage { get; }
+    }
+
+    public enum ToDoItemOperation
+    {
+        None,
+        Add,
+        Edit,
+        Delete
     }
 }
