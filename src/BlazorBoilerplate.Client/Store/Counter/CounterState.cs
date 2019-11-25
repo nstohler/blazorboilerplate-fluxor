@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
-    public class CounterState
+    public class CounterState : ICounterState
     {
         public bool   IsLoading    { get; private set; }
         public bool   IsLoaded     { get; private set; }
@@ -21,5 +21,13 @@ namespace BlazorBoilerplate.Client.Store.Counter
             ErrorMessage = errorMessage;
             IsLoading    = isLoading;
         }
+    }
+
+    public interface ICounterState
+    {
+        bool IsLoading { get; }
+        bool IsLoaded { get; }
+        string ErrorMessage { get; }
+        int CurrentCount { get; }
     }
 }

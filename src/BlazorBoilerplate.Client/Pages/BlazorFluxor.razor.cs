@@ -26,7 +26,7 @@ namespace BlazorBoilerplate.Client.Pages
     public class BlazorFluxorBase : FluxorComponent, IDisposable
     {
         [Inject] protected IDispatcher                 Dispatcher          { get; set; }
-        [Inject] protected IState<CounterState>        CounterState        { get; set; }
+        [Inject] protected IState<ICounterState>       CounterState        { get; set; }
         [Inject] protected IState<FetchToDoItemsState> FetchToDoItemsState { get; set; }
         [Inject] protected IState<BlazorFluxorState>   BlazorFluxorState   { get; set; }
         [Inject] protected IState<UpsertToDoItemState> UpsertToDoItemState { get; set; }
@@ -51,6 +51,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         private void OnUpsertToDoItemStateOnStateChanged(object sender, UpsertToDoItemState e)
         {
+            //Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsUpdating} - {e.IsUpdating} | {sender.ToString()} | {sender.GetType().Name}");
             Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsUpdating} - {e.IsUpdating}");
             if (!e.IsUpdating && e.ErrorMessage == null)
             {

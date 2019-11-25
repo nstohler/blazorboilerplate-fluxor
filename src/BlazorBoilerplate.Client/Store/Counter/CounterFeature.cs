@@ -7,10 +7,10 @@ using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
-    public class CounterFeature : Feature<CounterState>
+    public class CounterFeature : Feature<ICounterState>
     {
         public override string GetName() => "Counter";
 
-        protected override CounterState GetInitialState() => new CounterState(false, false, null, 0);
+        protected override ICounterState GetInitialState() => new CounterState(false, false, null, 0);
     }
 }
