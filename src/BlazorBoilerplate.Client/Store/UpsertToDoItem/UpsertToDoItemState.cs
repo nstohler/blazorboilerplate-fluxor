@@ -45,7 +45,7 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
     {
         None,
         Add,
-        Edit,
+        Update,
         Delete
     }
 }

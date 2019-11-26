@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.Counter.Increment;
+using BlazorBoilerplate.Client.Store.Counter.Report;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
@@ -23,8 +24,10 @@ namespace BlazorBoilerplate.Client.Store.Counter
         {
             try
             {
+                Console.WriteLine("CopunterEffect IncrementCounterAction");
                 await Task.Delay(500);
                 dispatcher.Dispatch(new IncrementCounterSuccessAction(action.PrevCount + 1));
+                dispatcher.Dispatch(new ReportBackToBlazorAction());
             }
             catch (Exception e)
             {

@@ -9,6 +9,7 @@ using BlazorBoilerplate.Client.Store.BlazorFluxor;
 using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById;
 using BlazorBoilerplate.Client.Store.Counter;
 using BlazorBoilerplate.Client.Store.Counter.Increment;
+using BlazorBoilerplate.Client.Store.Counter.Report;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 using BlazorBoilerplate.Client.Store.FetchToDo.Get;
 using BlazorBoilerplate.Client.Store.UpsertToDoItem;
@@ -61,6 +62,35 @@ namespace BlazorBoilerplate.Client.Pages
             }
         }
 
+        [EffectMethod]
+        public async Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
+        {
+            try
+            {
+                Console.WriteLine($"IncrementCounterSuccessAction effect @ BlazorFluxor.razor.cs {action.ServerCount}");
+                this.addTodo = new TodoDto();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"IncrementCounterSuccessAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
+                //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
+            }
+        }
+
+        [EffectMethod]
+        public static async Task HandleAsyncX(ReportBackToBlazorAction action, IDispatcher dispatcher)
+        {
+            try
+            {
+                Console.WriteLine($"ReportBackToBlazorAction effect @ BlazorFluxor.razor.cs");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ReportBackToBlazorAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
+                //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
+            }
+        }
+
         private void OnFetchToDoItemsStateOnStateChanged(object sender, FetchToDoItemsState state)
         {
             Console.WriteLine("ToDoItem state has changed!");
@@ -98,6 +128,11 @@ namespace BlazorBoilerplate.Client.Pages
             Console.WriteLine("Disposing...");
             FetchToDoItemsState.StateChanged -= OnFetchToDoItemsStateOnStateChanged;
             UpsertToDoItemState.StateChanged -= OnUpsertToDoItemStateOnStateChanged;
+        }
+
+        protected void ClearAddForm()
+        {
+            this.addTodo = new TodoDto();
         }
     }
 }
