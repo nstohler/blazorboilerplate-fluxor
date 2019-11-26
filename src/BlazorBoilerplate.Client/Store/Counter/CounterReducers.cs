@@ -51,6 +51,8 @@ namespace BlazorBoilerplate.Client.Store.Counter
         public ICounterState Reduce(ICounterState state, IncrementCounterSuccessAction action)
         {
             //return new CounterState(false, true, null, action.ServerCount);
+
+            Console.WriteLine("CounterReducer IncrementCounterSuccessAction");
          
             var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
 

@@ -24,15 +24,30 @@ namespace BlazorBoilerplate.Client.Store.Counter
         {
             try
             {
-                Console.WriteLine("CopunterEffect IncrementCounterAction");
+                Console.WriteLine("CounterEffect IncrementCounterAction");
                 await Task.Delay(500);
                 dispatcher.Dispatch(new IncrementCounterSuccessAction(action.PrevCount + 1));
-                dispatcher.Dispatch(new ReportBackToBlazorAction());
+                
+                dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
+                
+                // dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
+                // action.NotifyBlazorComponent?.NotifyActionComplete(action);
             }
             catch (Exception e)
             {
                 dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
             }
+        }
+
+        [EffectMethod]
+        public Task HandleAsync(ReportBackToBlazorAction action, IDispatcher dispatcher)
+        {
+            Console.WriteLine("CounterEffect ReportBackToBlazorAction");
+
+            // dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
+            action.NotifyBlazorComponent?.NotifyActionComplete(action);
+
+            return Task.CompletedTask;
         }
     }
 }

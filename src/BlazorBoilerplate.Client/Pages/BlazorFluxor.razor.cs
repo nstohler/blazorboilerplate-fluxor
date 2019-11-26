@@ -24,7 +24,7 @@ namespace BlazorBoilerplate.Client.Pages
     // https://www.telerik.com/blogs/using-a-code-behind-approach-to-blazor-components
 
     [Authorize]
-    public class BlazorFluxorBase : FluxorComponent, IDisposable
+    public class BlazorFluxorBase : FluxorComponent, IDisposable, INotifyBlazorComponent
     {
         [Inject] protected IDispatcher                 Dispatcher          { get; set; }
         [Inject] protected IState<ICounterState>       CounterState        { get; set; }
@@ -62,34 +62,35 @@ namespace BlazorBoilerplate.Client.Pages
             }
         }
 
-        [EffectMethod]
-        public async Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
-        {
-            try
-            {
-                Console.WriteLine($"IncrementCounterSuccessAction effect @ BlazorFluxor.razor.cs {action.ServerCount}");
-                this.addTodo = new TodoDto();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"IncrementCounterSuccessAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
-                //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
-            }
-        }
+        //[EffectMethod]
+        //public async Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
+        //{
+        //    try
+        //    {
+        //        Console.WriteLine($"IncrementCounterSuccessAction effect @ BlazorFluxor.razor.cs {action.ServerCount}");
+        //        //this.addTodo = new TodoDto();
+        //        //StateHasChanged();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine($"IncrementCounterSuccessAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
+        //        //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
+        //    }
+        //}
 
-        [EffectMethod]
-        public static async Task HandleAsyncX(ReportBackToBlazorAction action, IDispatcher dispatcher)
-        {
-            try
-            {
-                Console.WriteLine($"ReportBackToBlazorAction effect @ BlazorFluxor.razor.cs");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"ReportBackToBlazorAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
-                //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
-            }
-        }
+        //[EffectMethod]
+        //public static async Task HandleAsyncX(ReportBackToBlazorAction action, IDispatcher dispatcher)
+        //{
+        //    try
+        //    {
+        //        Console.WriteLine($"ReportBackToBlazorAction effect @ BlazorFluxor.razor.cs");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine($"ReportBackToBlazorAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
+        //        //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
+        //    }
+        //}
 
         private void OnFetchToDoItemsStateOnStateChanged(object sender, FetchToDoItemsState state)
         {
@@ -98,7 +99,9 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void IncrementCount()
         {
-            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
+            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, this));
+
+
         }
 
         protected void LoadToDos()
@@ -133,6 +136,19 @@ namespace BlazorBoilerplate.Client.Pages
         protected void ClearAddForm()
         {
             this.addTodo = new TodoDto();
+        }
+
+        public void NotifyActionComplete(object action)
+        {
+            Console.WriteLine($"NotifyActionComplete...");
+            if (action is ReportBackToBlazorAction)
+            {
+                Console.WriteLine($"NotifyActionComplete @ BlazorFluxor.razor.cs");
+
+                this.addTodo = new TodoDto();
+                StateHasChanged();
+            }
+            
         }
     }
 }
