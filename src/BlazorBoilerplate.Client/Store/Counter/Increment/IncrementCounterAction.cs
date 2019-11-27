@@ -1,20 +1,22 @@
-﻿using BlazorBoilerplate.Client.Pages;
+﻿using System;
+using BlazorBoilerplate.Client.Pages;
 using BlazorBoilerplate.Client.Store.Counter.Report;
+using System.Text.Json.Serialization;
 
 namespace BlazorBoilerplate.Client.Store.Counter.Increment
 {
     public class IncrementCounterAction
     {
-        private readonly INotifyBlazorComponent _notifyBlazorComponent;
-
-        public IncrementCounterAction(int prevCount, INotifyBlazorComponent notifyBlazorComponent)
+        public IncrementCounterAction(int prevCount, Action successAction = null
+        )
         {
-            NotifyBlazorComponent = notifyBlazorComponent;
-            PrevCount = prevCount;
+            SuccessAction = successAction;
+            PrevCount     = prevCount;
         }
-        // empty
 
         public int PrevCount { get; private set; }
-        public INotifyBlazorComponent NotifyBlazorComponent { get; private set; }
+
+        [JsonIgnore] // for ReduxDevToolsMiddleware to not serialize this
+        public Action SuccessAction { get; private set; }
     }
 }

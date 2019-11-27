@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
@@ -24,12 +25,12 @@ namespace BlazorBoilerplate.Client.Pages
     // https://www.telerik.com/blogs/using-a-code-behind-approach-to-blazor-components
 
     [Authorize]
-    public class BlazorFluxorBase : FluxorComponent, IDisposable, INotifyBlazorComponent
+    public class BlazorFluxorBase : FluxorComponent, IDisposable // , INotifyBlazorComponent
     {
-        [Inject] protected IDispatcher                 Dispatcher          { get; set; }
-        [Inject] protected IState<ICounterState>       CounterState        { get; set; }
+        [Inject] protected IDispatcher Dispatcher { get; set; }
+        [Inject] protected IState<ICounterState> CounterState { get; set; }
         [Inject] protected IState<FetchToDoItemsState> FetchToDoItemsState { get; set; }
-        [Inject] protected IState<IBlazorFluxorState>   BlazorFluxorState   { get; set; }
+        [Inject] protected IState<IBlazorFluxorState> BlazorFluxorState { get; set; }
         [Inject] protected IState<IUpsertToDoItemState> UpsertToDoItemState { get; set; }
 
         protected TodoDto addTodo { get; set; } = new TodoDto();
@@ -62,36 +63,6 @@ namespace BlazorBoilerplate.Client.Pages
             }
         }
 
-        //[EffectMethod]
-        //public async Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
-        //{
-        //    try
-        //    {
-        //        Console.WriteLine($"IncrementCounterSuccessAction effect @ BlazorFluxor.razor.cs {action.ServerCount}");
-        //        //this.addTodo = new TodoDto();
-        //        //StateHasChanged();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine($"IncrementCounterSuccessAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
-        //        //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
-        //    }
-        //}
-
-        //[EffectMethod]
-        //public static async Task HandleAsyncX(ReportBackToBlazorAction action, IDispatcher dispatcher)
-        //{
-        //    try
-        //    {
-        //        Console.WriteLine($"ReportBackToBlazorAction effect @ BlazorFluxor.razor.cs");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine($"ReportBackToBlazorAction effect ERROR @ BlazorFluxor.razor.cs | {e.Message}");
-        //        //dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
-        //    }
-        //}
-
         private void OnFetchToDoItemsStateOnStateChanged(object sender, FetchToDoItemsState state)
         {
             Console.WriteLine("ToDoItem state has changed!");
@@ -99,9 +70,17 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void IncrementCount()
         {
-            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, this));
+            // Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, this));
 
+            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, 
+                () =>
+                {
+                    Console.WriteLine($"DoneAction @ BlazorFluxor.razor.cs");
 
+                    ClearAddForm();
+                    StateHasChanged();
+                }
+                ));
         }
 
         protected void LoadToDos()
@@ -136,19 +115,6 @@ namespace BlazorBoilerplate.Client.Pages
         protected void ClearAddForm()
         {
             this.addTodo = new TodoDto();
-        }
-
-        public void NotifyActionComplete(object action)
-        {
-            Console.WriteLine($"NotifyActionComplete...");
-            if (action is ReportBackToBlazorAction)
-            {
-                Console.WriteLine($"NotifyActionComplete @ BlazorFluxor.razor.cs");
-
-                this.addTodo = new TodoDto();
-                StateHasChanged();
-            }
-            
         }
     }
 }

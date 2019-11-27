@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Client.Store.Counter.Report
 {
-    public class ReportBackToBlazorAction
-    {
-        public ReportBackToBlazorAction(INotifyBlazorComponent notifyBlazorComponent)
-        {
-            NotifyBlazorComponent = notifyBlazorComponent;
-        }
+    //public class ReportBackToBlazorAction
+    //{
+    //    public ReportBackToBlazorAction(INotifyBlazorComponent notifyBlazorComponent)
+    //    {
+    //        NotifyBlazorComponent = notifyBlazorComponent;
+    //    }
 
-        public INotifyBlazorComponent NotifyBlazorComponent { get; private set; }
-    }
+    //    public INotifyBlazorComponent NotifyBlazorComponent { get; private set; }
+    //}
 
-    public interface INotifyBlazorComponent
-    {
-        void NotifyActionComplete(object action);
-    }
+    //public interface INotifyBlazorComponent
+    //{
+    //    void NotifyActionComplete(object action);
+    //}
 }

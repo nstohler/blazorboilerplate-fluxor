@@ -26,12 +26,8 @@ namespace BlazorBoilerplate.Client.Store.Counter
             {
                 Console.WriteLine("CounterEffect IncrementCounterAction");
                 await Task.Delay(500);
-                dispatcher.Dispatch(new IncrementCounterSuccessAction(action.PrevCount + 1));
-                
-                dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
-                
-                // dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
-                // action.NotifyBlazorComponent?.NotifyActionComplete(action);
+
+                dispatcher.Dispatch(new IncrementCounterSuccessAction(action.PrevCount + 1, action.SuccessAction));
             }
             catch (Exception e)
             {
@@ -40,12 +36,10 @@ namespace BlazorBoilerplate.Client.Store.Counter
         }
 
         [EffectMethod]
-        public Task HandleAsync(ReportBackToBlazorAction action, IDispatcher dispatcher)
+        public Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
         {
-            Console.WriteLine("CounterEffect ReportBackToBlazorAction");
-
-            // dispatcher.Dispatch(new ReportBackToBlazorAction(action.NotifyBlazorComponent));
-            action.NotifyBlazorComponent?.NotifyActionComplete(action);
+            Console.WriteLine("CounterEffect IncrementCounterSuccessAction");
+            action.SuccessAction?.Invoke();
 
             return Task.CompletedTask;
         }
