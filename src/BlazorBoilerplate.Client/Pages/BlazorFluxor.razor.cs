@@ -45,12 +45,12 @@ namespace BlazorBoilerplate.Client.Pages
             base.OnInitialized();
 
             var sub = this.ObservableStore.Actions
-                .TakeAction<IncrementCounterSuccessAction>()
+                .TakeAction<IncrementCounterResultAction>()
                 .Subscribe(action =>
                 {
-                    Console.WriteLine($"ObservableStore.Actions for IncrementCounterSuccessAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.ServerCount}");
-                    this.ClearAddForm();
-                    base.StateHasChanged();
+                    Console.WriteLine($"ObservableStore.Actions for IncrementCounterSuccessAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
+                    ClearAddForm();
+                    StateHasChanged();
                 });
 
             _subscriptions.Add(sub);

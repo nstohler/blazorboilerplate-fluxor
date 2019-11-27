@@ -32,38 +32,38 @@ namespace BlazorBoilerplate.Client.Store.Counter
         }
 
         [ReducerMethod]
-        public ICounterState Reduce(ICounterState state, IncrementCounterFailedAction action)
+        public ICounterState Reduce(ICounterState state, IncrementCounterResultAction action)
         {
             var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
 
             // only changes need to be done here now
             newState.IsLoading    = false;
-            newState.IsLoaded     = false;
+            newState.IsLoaded     = action.IsSuccess;
             newState.ErrorMessage = action.ErrorMessage;
-            newState.CurrentCount = 0;
+            newState.CurrentCount = action.IsSuccess ? action.Count : 0;
 
             return newState;
 
             //return new CounterState(false, false, action.ErrorMessage, -1);
         }
 
-        [ReducerMethod]
-        public ICounterState Reduce(ICounterState state, IncrementCounterSuccessAction action)
-        {
-            //return new CounterState(false, true, null, action.ServerCount);
+        //[ReducerMethod]
+        //public ICounterState Reduce(ICounterState state, IncrementCounterSuccessAction action)
+        //{
+        //    //return new CounterState(false, true, null, action.ServerCount);
 
-            Console.WriteLine("CounterReducer IncrementCounterSuccessAction");
+        //    Console.WriteLine("CounterReducer IncrementCounterSuccessAction");
          
-            var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
+        //    var newState = (CounterState)FastDeepCloner.DeepCloner.Clone(state);
 
-            // only changes need to be done here now
-            newState.IsLoading    = false;
-            newState.IsLoaded     = true;
-            newState.ErrorMessage = null;
-            newState.CurrentCount = action.ServerCount;
+        //    // only changes need to be done here now
+        //    newState.IsLoading    = false;
+        //    newState.IsLoaded     = true;
+        //    newState.ErrorMessage = null;
+        //    newState.CurrentCount = action.ServerCount;
 
-            return newState;
-        }
+        //    return newState;
+        //}
 
     }
 }

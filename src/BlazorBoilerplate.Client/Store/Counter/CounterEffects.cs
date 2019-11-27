@@ -27,21 +27,22 @@ namespace BlazorBoilerplate.Client.Store.Counter
                 Console.WriteLine("CounterEffect IncrementCounterAction");
                 await Task.Delay(500);
 
-                dispatcher.Dispatch(new IncrementCounterSuccessAction(action.PrevCount + 1, action.SuccessAction));
+
+                dispatcher.Dispatch(new IncrementCounterResultAction(action.PrevCount + 1, true, null));
             }
             catch (Exception e)
             {
-                dispatcher.Dispatch(new IncrementCounterFailedAction("simulated http fetch failed somehow"));
+                dispatcher.Dispatch(new IncrementCounterResultAction(0, false, "simulated http fetch failed somehow"));
             }
         }
 
-        [EffectMethod]
-        public Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
-        {
-            Console.WriteLine("CounterEffect IncrementCounterSuccessAction");
-            action.SuccessAction?.Invoke();
+        //[EffectMethod]
+        //public Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
+        //{
+        //    Console.WriteLine("CounterEffect IncrementCounterSuccessAction");
+        //    action.SuccessAction?.Invoke();
 
-            return Task.CompletedTask;
-        }
+        //    return Task.CompletedTask;
+        //}
     }
 }
