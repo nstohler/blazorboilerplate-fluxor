@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.Counter.Increment;
-using BlazorBoilerplate.Client.Store.Counter.Report;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
@@ -27,7 +26,6 @@ namespace BlazorBoilerplate.Client.Store.Counter
                 Console.WriteLine("CounterEffect IncrementCounterAction");
                 await Task.Delay(500);
 
-
                 dispatcher.Dispatch(new IncrementCounterResultAction(action.PrevCount + 1, true, null));
             }
             catch (Exception e)
@@ -35,14 +33,5 @@ namespace BlazorBoilerplate.Client.Store.Counter
                 dispatcher.Dispatch(new IncrementCounterResultAction(0, false, "simulated http fetch failed somehow"));
             }
         }
-
-        //[EffectMethod]
-        //public Task HandleAsync(IncrementCounterSuccessAction action, IDispatcher dispatcher)
-        //{
-        //    Console.WriteLine("CounterEffect IncrementCounterSuccessAction");
-        //    action.SuccessAction?.Invoke();
-
-        //    return Task.CompletedTask;
-        //}
     }
 }
