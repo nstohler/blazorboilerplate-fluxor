@@ -1,7 +1,5 @@
 ﻿using System;
-using BlazorBoilerplate.Client.Pages;
-using BlazorBoilerplate.Client.Store.Counter.Report;
-using System.Text.Json.Serialization;
+using System.Text.Json.Serialization; // NOT Newtonsoft.Json!
 
 namespace BlazorBoilerplate.Client.Store.Counter.Increment
 {

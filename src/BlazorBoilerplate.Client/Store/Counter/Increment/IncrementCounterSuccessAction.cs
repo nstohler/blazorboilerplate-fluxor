@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;   // NOT Newtonsoft.Json!
 
 namespace BlazorBoilerplate.Client.Store.Counter.Increment
 {
@@ -13,7 +13,7 @@ namespace BlazorBoilerplate.Client.Store.Counter.Increment
 
         public int ServerCount { get; private set; }
 
-        [JsonIgnore]
-        public Action SuccessAction { get; }
+        [JsonIgnore] // for ReduxDevToolsMiddleware to not serialize this
+        public Action SuccessAction { get; private set; }
     }
 }
