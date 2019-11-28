@@ -3,8 +3,8 @@
 @using BlazorBoilerplate.Client.Store.BlazorFluxor
 @using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById
 @using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
-@using BlazorBoilerplate.Client.Store.UpsertToDoItem
-@using BlazorBoilerplate.Client.Store.UpsertToDoItem.Delete
+@using BlazorBoilerplate.Client.Store.ToDoItem
+@using BlazorBoilerplate.Client.Store.ToDoItem.Delete
 @inherits BlazorFluxorBase
 
 <h1>Blazor.Fluxor Redux</h1>
@@ -91,7 +91,7 @@
                 </span>
             </div>
             <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> 
-            @if (UpsertToDoItemState.Value.IsProcessing)
+            @if (ToDoItemState.Value.IsProcessing)
             {
                 <text>working...</text>
             }

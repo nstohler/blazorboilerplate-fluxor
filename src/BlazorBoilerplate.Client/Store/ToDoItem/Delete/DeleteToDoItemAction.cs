@@ -1,12 +1,12 @@
 ﻿using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Update
+namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
-    public class UpdateToDoItemAction
+    public class DeleteToDoItemAction
     {
         public TodoDto TodoDto { get; private set; }
 
-        public UpdateToDoItemAction(TodoDto todoDto)
+        public DeleteToDoItemAction(TodoDto todoDto)
         {
             TodoDto = todoDto;
         }

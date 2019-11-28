@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
+namespace BlazorBoilerplate.Client.Store.ToDoItem
 {
-    public class UpsertToDoItemState : IUpsertToDoItemState
+    public class ToDoItemState : IToDoItemState
     {
         // allow setters / use interface?
 
@@ -20,7 +16,7 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
 
         // TODO: add operation enum (create | update | delete)
 
-        public UpsertToDoItemState(bool isProcessing, TodoDto todoDto, string errorMessage,
+        public ToDoItemState(bool isProcessing, TodoDto todoDto, string errorMessage,
             ToDoItemOperation toDoItemOperation, DateTime lastOperationDateTime)
         {
             IsProcessing          = isProcessing;
@@ -30,13 +26,13 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
             LastOperationDateTime = lastOperationDateTime;
         }
 
-        public static UpsertToDoItemState CreateNew()
+        public static ToDoItemState CreateNew()
         {
-            return new UpsertToDoItemState(false, null, null, ToDoItemOperation.None, DateTime.UtcNow);
+            return new ToDoItemState(false, null, null, ToDoItemOperation.None, DateTime.UtcNow);
         }
     }
 
-    public interface IUpsertToDoItemState
+    public interface IToDoItemState
     {
         bool              IsProcessing          { get; }
         TodoDto           TodoDto               { get; }

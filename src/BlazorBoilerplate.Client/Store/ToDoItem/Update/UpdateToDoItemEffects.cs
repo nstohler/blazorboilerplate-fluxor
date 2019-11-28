@@ -8,7 +8,7 @@ using BlazorBoilerplate.Shared.Dto;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Update
+namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
     public class UpdateToDoItemEffects
     {

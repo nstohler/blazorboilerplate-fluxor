@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlazorBoilerplate.Shared.Dto;
+﻿using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Update
+namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
     public class UpdateToDoItemResultAction
     {

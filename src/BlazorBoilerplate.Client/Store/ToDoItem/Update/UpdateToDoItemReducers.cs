@@ -1,27 +1,27 @@
 ﻿using Blazor.Fluxor;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Delete
+namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
-    public class DeleteToDoItemReducers
+    public class UpdateToDoItemReducers
     {
         [ReducerMethod]
-        public IUpsertToDoItemState Reduce(IUpsertToDoItemState state, DeleteToDoItemAction action)
+        public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemAction action)
         {
-            var newState = UpsertToDoItemState.CreateNew();
+            var newState = ToDoItemState.CreateNew();
 
             // only changes need to be done here now
             newState.IsProcessing      = true;
             newState.TodoDto           = action.TodoDto;
-            newState.ToDoItemOperation = ToDoItemOperation.Delete;
+            newState.ToDoItemOperation = ToDoItemOperation.Update;
 
             return newState;
         }
 
         [ReducerMethod]
-        public IUpsertToDoItemState Reduce(IUpsertToDoItemState state, DeleteToDoItemResultAction action)
+        public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemResultAction action)
         {
-            var newState = UpsertToDoItemState.CreateNew();
-            newState.ToDoItemOperation = ToDoItemOperation.Delete;
+            var newState = ToDoItemState.CreateNew();
+            newState.ToDoItemOperation = ToDoItemOperation.Update;
 
             if (action.IsSuccess)
             {

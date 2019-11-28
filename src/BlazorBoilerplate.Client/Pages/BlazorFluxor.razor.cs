@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Blazor.Fluxor;
 using Blazor.Fluxor.Components;
 using BlazorBoilerplate.Client.Store.BlazorFluxor;
@@ -12,9 +8,9 @@ using BlazorBoilerplate.Client.Store.Counter;
 using BlazorBoilerplate.Client.Store.Counter.Increment;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 using BlazorBoilerplate.Client.Store.FetchToDo.Get;
-using BlazorBoilerplate.Client.Store.UpsertToDoItem;
-using BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew;
-using BlazorBoilerplate.Client.Store.UpsertToDoItem.Update;
+using BlazorBoilerplate.Client.Store.ToDoItem;
+using BlazorBoilerplate.Client.Store.ToDoItem.CreateNew;
+using BlazorBoilerplate.Client.Store.ToDoItem.Update;
 using BlazorBoilerplate.Shared.Dto;
 using Logixware.AspNet.Blazor.Fluxor;
 using Microsoft.AspNetCore.Authorization;
@@ -28,10 +24,11 @@ namespace BlazorBoilerplate.Client.Pages
     public class BlazorFluxorBase : FluxorComponent, IDisposable // , INotifyBlazorComponent
     {
         [Inject] protected IDispatcher Dispatcher { get; set; }
-        [Inject] protected IState<ICounterState> CounterState { get; set; }
+
+        [Inject] protected IState<ICounterState>       CounterState        { get; set; }
         [Inject] protected IState<FetchToDoItemsState> FetchToDoItemsState { get; set; }
-        [Inject] protected IState<IBlazorFluxorState> BlazorFluxorState { get; set; }
-        [Inject] protected IState<IUpsertToDoItemState> UpsertToDoItemState { get; set; }
+        [Inject] protected IState<IBlazorFluxorState>  BlazorFluxorState   { get; set; }
+        [Inject] protected IState<IToDoItemState>      ToDoItemState       { get; set; }
 
         [Inject] protected IObservableStore ObservableStore { get; set; }
 
@@ -43,11 +40,14 @@ namespace BlazorBoilerplate.Client.Pages
         {
             base.OnInitialized();
 
+            //ToDoItemState.StateChanged += OnToDoItemStateOnStateChanged;
+
             var sub = this.ObservableStore.Actions
                 .TakeAction<IncrementCounterResultAction>()
                 .Subscribe(action =>
                 {
-                    Console.WriteLine($"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
+                    Console.WriteLine(
+                        $"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
                     ClearAddForm();
                     StateHasChanged();
                 });
@@ -92,7 +92,7 @@ namespace BlazorBoilerplate.Client.Pages
             Console.WriteLine("Disposing...");
 
             // disconnect events
-            //UpsertToDoItemState.StateChanged -= OnUpsertToDoItemStateOnStateChanged;
+            //ToDoItemState.StateChanged -= OnToDoItemStateOnStateChanged;
 
             // unsubscribe
             foreach (var subscription in _subscriptions)

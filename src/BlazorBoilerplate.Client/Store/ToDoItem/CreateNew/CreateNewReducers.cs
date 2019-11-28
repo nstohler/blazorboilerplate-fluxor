@@ -1,14 +1,14 @@
 ﻿using Blazor.Fluxor;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
+namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
 {
     public class CreateNewReducers
     {
         [ReducerMethod]
-        public IUpsertToDoItemState Reduce(IUpsertToDoItemState state, CreateNewToDoItemAction action)
+        public IToDoItemState Reduce(IToDoItemState state, CreateNewToDoItemAction action)
         {
-            //var newState = (UpsertToDoItemState)FastDeepCloner.DeepCloner.Clone(state);
-            var newState = UpsertToDoItemState.CreateNew();
+            //var newState = (ToDoItemState)FastDeepCloner.DeepCloner.Clone(state);
+            var newState = ToDoItemState.CreateNew();
 
             // only changes need to be done here now
             newState.IsProcessing      = true;
@@ -19,9 +19,9 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
         }
 
         [ReducerMethod]
-        public IUpsertToDoItemState Reduce(IUpsertToDoItemState state, CreateNewToDoItemResultAction action)
+        public IToDoItemState Reduce(IToDoItemState state, CreateNewToDoItemResultAction action)
         {
-            var newState = UpsertToDoItemState.CreateNew();
+            var newState = ToDoItemState.CreateNew();
             newState.ToDoItemOperation = ToDoItemOperation.Add;
 
             if (action.IsSuccess)

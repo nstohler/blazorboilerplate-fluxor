@@ -5,7 +5,7 @@ using Blazor.Fluxor;
 using BlazorBoilerplate.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew
+namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
 {
     public class CreateNewEffects
     {

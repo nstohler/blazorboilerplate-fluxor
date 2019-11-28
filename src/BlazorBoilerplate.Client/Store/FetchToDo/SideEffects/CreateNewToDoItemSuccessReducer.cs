@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using Blazor.Fluxor;
-using BlazorBoilerplate.Client.Store.UpsertToDoItem.CreateNew;
+using BlazorBoilerplate.Client.Store.ToDoItem.CreateNew;
 using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.SideEffects

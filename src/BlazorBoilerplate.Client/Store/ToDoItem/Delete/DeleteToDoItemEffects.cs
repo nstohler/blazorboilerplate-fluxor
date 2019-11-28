@@ -6,7 +6,7 @@ using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById;
 using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById;
 using BlazorBoilerplate.Client.Store.FetchToDo.SideEffects;
 
-namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Delete
+namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
     public class DeleteToDoItemEffects
     {
