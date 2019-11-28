@@ -36,17 +36,10 @@ namespace BlazorBoilerplate.Client.Pages
         private IDisposable _deleteSubscription = null;
 
         protected TodoDto createTodo = new TodoDto();
-        //protected TodoDto updateTodo = null;
         protected TodoDto deleteTodo = null;
 
-        //---
         protected bool deleteDialogOpen = false;
         protected bool dialogIsOpen = false;
-
-        //protected List<TodoDto> todos => FetchToDoItemsState.Value.ToDoItems.ToList();
-
-        //protected List<TodoDto> todos = new List<TodoDto>();
-        //protected TodoDto todo { get; set; } = new TodoDto();
 
         protected override void OnInitialized()
         {
@@ -77,33 +70,10 @@ namespace BlazorBoilerplate.Client.Pages
             Dispatcher.Dispatch(new GetToDoItemsAction());
         }
 
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    await ReadTodos();
-        //}
-
-        //protected async Task ReadTodos()
-        //{
-        //    ApiResponseDto apiResponse = await Http.GetJsonAsync<ApiResponseDto>("api/todo");
-
-        //    if (apiResponse.StatusCode == 200)
-        //    {
-        //        matToaster.Add(apiResponse.Message, MatToastType.Success, "Todo List Retrieved");
-        //        todos = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto[]>(apiResponse.Result.ToString()).ToList<TodoDto>();
-        //    }
-        //    else
-        //    {
-        //        matToaster.Add(apiResponse.Message + " : " + apiResponse.StatusCode, MatToastType.Danger, "Todo List Retrieval Failed");
-        //    }
-        //}
-
         protected async Task Update(TodoDto todo)
         {
             var updateTodo = todo;
             updateTodo.IsCompleted = !updateTodo.IsCompleted;
-
-            //var clone = FastDeepCloner.DeepCloner.Clone(todo);
-            //clone.IsCompleted = !clone.IsCompleted;
 
             _updateSubscription?.Dispose();
 
@@ -171,7 +141,10 @@ namespace BlazorBoilerplate.Client.Pages
         protected void OpenDeleteDialog(long todoId)
         {
             deleteTodo = FetchToDoItemsState.Value.ToDoItems.FirstOrDefault(x => x.Id == todoId);
-            this.deleteDialogOpen = true;
+            if (deleteTodo != null)
+            {
+                this.deleteDialogOpen = true;
+            }
         }
 
         protected async Task CreateTodo()
@@ -198,27 +171,6 @@ namespace BlazorBoilerplate.Client.Pages
             _subscriptions.Add(_createSubscription);
 
             Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo));
-
-            //dialogIsOpen = false;
-            //try
-            //{
-            //    ApiResponseDto apiResponse = await Http.PostJsonAsync<ApiResponseDto>("api/todo", todo);
-            //    if (apiResponse.StatusCode == 200)
-            //    {
-            //        matToaster.Add(apiResponse.Message, MatToastType.Success);
-            //        todo = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto>(apiResponse.Result.ToString());
-            //        todos.Add(todo);
-            //        todo = new TodoDto(); //reset todo after insert
-            //    }
-            //    else
-            //    {
-            //        matToaster.Add(apiResponse.Message + " : " + apiResponse.StatusCode, MatToastType.Danger, "Todo Creation Failed");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    matToaster.Add(ex.Message, MatToastType.Danger, "Todo Creation Failed");
-            //}
         }
 
         public void Dispose()
