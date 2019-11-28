@@ -8,9 +8,9 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById
 {
     public class DetailByIdToDoItemEffect : Effect<DetailByIdToDoItemAction>
     {
-        private readonly IState<FetchToDoItemsState> _fetchToDoItemsState;
+        private readonly IState<IFetchToDoItemsState> _fetchToDoItemsState;
 
-        public DetailByIdToDoItemEffect(IState<FetchToDoItemsState> fetchToDoItemsState)
+        public DetailByIdToDoItemEffect(IState<IFetchToDoItemsState> fetchToDoItemsState)
         {
             _fetchToDoItemsState = fetchToDoItemsState;
         }

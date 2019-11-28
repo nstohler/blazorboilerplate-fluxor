@@ -53,7 +53,9 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
             // reload todo items
             //dispatcher.Dispatch(new GetToDoItemsAction());
-            dispatcher.Dispatch(new FetchToDo.SideEffects.UpdateToDoItemAction(action.TodoDto));
+
+            // let FetchToDoState update the item in its collection:
+            dispatcher.Dispatch(new FetchToDo.ToDoItemSideEffects.UpdateToDoItemAction(action.TodoDto));
 
             // special: set as active detail view item
             // dispatcher.Dispatch(new DetailByIdToDoItemAction(action.TodoDto.Id));

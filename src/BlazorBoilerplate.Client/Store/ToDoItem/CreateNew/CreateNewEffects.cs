@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
+using BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects;
 using BlazorBoilerplate.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
@@ -28,6 +29,9 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
                     var todo = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto>(apiResponse.Result.ToString());
 
                     dispatcher.Dispatch(new CreateNewToDoItemResultAction(todo, true, null)); // catch, add to collection
+                    
+                    // let FetchToDoState add item to its collection:
+                    dispatcher.Dispatch(new AddToDoItemAction(todo));
                 }
                 else
                 {

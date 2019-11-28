@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById;
 using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById;
-using BlazorBoilerplate.Client.Store.FetchToDo.SideEffects;
+using BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
@@ -48,6 +48,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
                 return Task.CompletedTask;
             }
 
+            // let FetchToDoState remove the item from its collection:
             dispatcher.Dispatch(new RemoveToDoItemAction(action.TodoDto));
 
             // clear selections

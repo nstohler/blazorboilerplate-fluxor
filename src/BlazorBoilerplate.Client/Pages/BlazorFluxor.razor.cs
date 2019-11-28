@@ -25,10 +25,10 @@ namespace BlazorBoilerplate.Client.Pages
     {
         [Inject] protected IDispatcher Dispatcher { get; set; }
 
-        [Inject] protected IState<ICounterState>       CounterState        { get; set; }
-        [Inject] protected IState<FetchToDoItemsState> FetchToDoItemsState { get; set; }
-        [Inject] protected IState<IBlazorFluxorState>  BlazorFluxorState   { get; set; }
-        [Inject] protected IState<IToDoItemState>      ToDoItemState       { get; set; }
+        [Inject] protected IState<ICounterState>        CounterState        { get; set; }
+        [Inject] protected IState<IFetchToDoItemsState> FetchToDoItemsState { get; set; }
+        [Inject] protected IState<IBlazorFluxorState>   BlazorFluxorState   { get; set; }
+        [Inject] protected IState<IToDoItemState>       ToDoItemState       { get; set; }
 
         [Inject] protected IObservableStore ObservableStore { get; set; }
 

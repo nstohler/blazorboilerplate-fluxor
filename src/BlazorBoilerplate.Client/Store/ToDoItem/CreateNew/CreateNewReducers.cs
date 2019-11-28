@@ -8,7 +8,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
         public IToDoItemState Reduce(IToDoItemState state, CreateNewToDoItemAction action)
         {
             //var newState = (ToDoItemState)FastDeepCloner.DeepCloner.Clone(state);
-            var newState = ToDoItemState.CreateNew();
+            var newState = ToDoItemStateFactory.CreateNew();
 
             // only changes need to be done here now
             newState.IsProcessing      = true;
@@ -21,7 +21,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
         [ReducerMethod]
         public IToDoItemState Reduce(IToDoItemState state, CreateNewToDoItemResultAction action)
         {
-            var newState = ToDoItemState.CreateNew();
+            var newState = ToDoItemStateFactory.CreateNew();
             newState.ToDoItemOperation = ToDoItemOperation.Add;
 
             if (action.IsSuccess)

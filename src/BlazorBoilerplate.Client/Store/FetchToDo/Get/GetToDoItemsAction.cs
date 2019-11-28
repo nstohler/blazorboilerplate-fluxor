@@ -1,6 +1,8 @@
-﻿namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
+﻿using BlazorBoilerplate.Client.Store.Extensions;
+
+namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsAction
+    public class GetToDoItemsAction : IActionWithSideEffect
     {
         
     }

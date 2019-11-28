@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Client.Store.Counter
 {
+    public interface ICounterState
+    {
+        bool     IsLoading                  { get; }
+        bool     IsLoaded                   { get; }
+        string   ErrorMessage               { get; }
+        int      CurrentCount               { get; }
+        DateTime LastSuccessCounterPostTime { get; }
+    }
+
     public class CounterState : ICounterState
     {
         public bool   IsLoading    { get; set; }
@@ -28,14 +37,5 @@ namespace BlazorBoilerplate.Client.Store.Counter
         {
             return new CounterState(false, false, null, 0, DateTime.UtcNow);
         }
-    }
-
-    public interface ICounterState
-    {
-        bool IsLoading { get; }
-        bool IsLoaded { get; }
-        string ErrorMessage { get; }
-        int CurrentCount { get; }
-        DateTime LastSuccessCounterPostTime { get; }
     }
 }

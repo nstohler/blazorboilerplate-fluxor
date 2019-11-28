@@ -9,9 +9,9 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
 {
     public class EditByIdToDoItemEffect : Effect<EditByIdToDoItemAction>
     {
-        private readonly IState<FetchToDoItemsState> _fetchToDoItemsState;
+        private readonly IState<IFetchToDoItemsState> _fetchToDoItemsState;
 
-        public EditByIdToDoItemEffect(IState<FetchToDoItemsState> fetchToDoItemsState)
+        public EditByIdToDoItemEffect(IState<IFetchToDoItemsState> fetchToDoItemsState)
         {
             _fetchToDoItemsState = fetchToDoItemsState;
         }

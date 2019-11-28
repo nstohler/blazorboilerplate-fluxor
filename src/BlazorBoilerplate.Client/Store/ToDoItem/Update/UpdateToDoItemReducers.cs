@@ -7,7 +7,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
         [ReducerMethod]
         public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemAction action)
         {
-            var newState = ToDoItemState.CreateNew();
+            var newState = ToDoItemStateFactory.CreateNew();
 
             // only changes need to be done here now
             newState.IsProcessing      = true;
@@ -20,7 +20,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
         [ReducerMethod]
         public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemResultAction action)
         {
-            var newState = ToDoItemState.CreateNew();
+            var newState = ToDoItemStateFactory.CreateNew();
             newState.ToDoItemOperation = ToDoItemOperation.Update;
 
             if (action.IsSuccess)

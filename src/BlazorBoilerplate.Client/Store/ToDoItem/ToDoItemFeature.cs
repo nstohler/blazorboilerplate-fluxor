@@ -7,6 +7,6 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem
         public override string GetName() => "ToDoItem";
 
         //protected override IToDoItemState GetInitialState() => new ToDoItemState(false, null, null, ToDoItemOperation.None);
-        protected override IToDoItemState GetInitialState() => ToDoItemState.CreateNew();
+        protected override IToDoItemState GetInitialState() => ToDoItemStateFactory.CreateNew();
     }
 }

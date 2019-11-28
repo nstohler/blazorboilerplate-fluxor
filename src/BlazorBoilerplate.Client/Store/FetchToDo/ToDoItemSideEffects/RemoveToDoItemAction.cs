@@ -1,6 +1,6 @@
 ﻿using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.FetchToDo.SideEffects
+namespace BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects
 {
     public class RemoveToDoItemAction
     {
