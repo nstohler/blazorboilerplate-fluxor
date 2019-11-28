@@ -11,6 +11,6 @@ namespace BlazorBoilerplate.Client.Store.Counter
     {
         public override string GetName() => "Counter";
 
-        protected override ICounterState GetInitialState() => CounterState.CreateNew();
+        protected override ICounterState GetInitialState() => CounterStateFactory.CreateNew();
     }
 }

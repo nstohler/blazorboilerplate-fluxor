@@ -1,6 +1,6 @@
 ﻿using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.BlazorFluxor.EditByRef
+namespace BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit
 {
     public class EditByRefToDoEditAction
     {

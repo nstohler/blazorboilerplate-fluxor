@@ -32,7 +32,10 @@ namespace BlazorBoilerplate.Client.Store.Counter
             ErrorMessage = errorMessage;
             IsLoading    = isLoading;
         }
+    }
 
+    public static class CounterStateFactory
+    {
         public static CounterState CreateNew()
         {
             return new CounterState(false, false, null, 0, DateTime.UtcNow);

@@ -1,22 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
-using BlazorBoilerplate.Client.Store.BlazorFluxor.EditByRef;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 
-namespace BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
+namespace BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit
 {
-    public class EditByIdToDoItemEffect : Effect<EditByIdToDoItemAction>
+    public class EditEffects
     {
         private readonly IState<IFetchToDoItemsState> _fetchToDoItemsState;
 
-        public EditByIdToDoItemEffect(IState<IFetchToDoItemsState> fetchToDoItemsState)
+        public EditEffects(IState<IFetchToDoItemsState> fetchToDoItemsState)
         {
             _fetchToDoItemsState = fetchToDoItemsState;
         }
 
-        protected override Task HandleAsync(EditByIdToDoItemAction action, IDispatcher dispatcher)
+        [EffectMethod]
+        public Task HandleAsync(EditByIdToDoItemAction action, IDispatcher dispatcher)
         {
             try
             {
@@ -39,7 +41,8 @@ namespace BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
                 //    };
                 //}
 
-                var clonedItem = FastDeepCloner.DeepCloner.Clone(item);
+                // clone it so the (unsaved) edits dont change the original item:
+                var clonedItem = FastDeepCloner.DeepCloner.Clone(item); 
 
                 //dispatcher.Dispatch(new EditByRefToDoEditAction(editCopy));
                 dispatcher.Dispatch(new EditByRefToDoEditAction(clonedItem));

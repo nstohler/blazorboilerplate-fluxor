@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Blazor.Fluxor;
 using Blazor.Fluxor.Components;
-using BlazorBoilerplate.Client.Store.BlazorFluxor;
-using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById;
 using BlazorBoilerplate.Client.Store.Counter;
 using BlazorBoilerplate.Client.Store.Counter.Increment;
+using BlazorBoilerplate.Client.Store.DetailEditToDoItem;
+using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 using BlazorBoilerplate.Client.Store.FetchToDo.Get;
 using BlazorBoilerplate.Client.Store.ToDoItem;
@@ -25,10 +25,10 @@ namespace BlazorBoilerplate.Client.Pages
     {
         [Inject] protected IDispatcher Dispatcher { get; set; }
 
-        [Inject] protected IState<ICounterState>        CounterState        { get; set; }
-        [Inject] protected IState<IFetchToDoItemsState> FetchToDoItemsState { get; set; }
-        [Inject] protected IState<IBlazorFluxorState>   BlazorFluxorState   { get; set; }
-        [Inject] protected IState<IToDoItemState>       ToDoItemState       { get; set; }
+        [Inject] protected IState<ICounterState>            CounterState            { get; set; }
+        [Inject] protected IState<IFetchToDoItemsState>     FetchToDoItemsState     { get; set; }
+        [Inject] protected IState<IDetailEditToDoItemState> DetailEditToDoItemState { get; set; }
+        [Inject] protected IState<IToDoItemState>           ToDoItemState           { get; set; }
 
         [Inject] protected IObservableStore ObservableStore { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using BlazorBoilerplate.Shared.Dto;
 
-namespace BlazorBoilerplate.Client.Store.BlazorFluxor.DetailByRef
+namespace BlazorBoilerplate.Client.Store.DetailEditToDoItem.Details
 {
     public class DetailByRefToDoItemAction
     {

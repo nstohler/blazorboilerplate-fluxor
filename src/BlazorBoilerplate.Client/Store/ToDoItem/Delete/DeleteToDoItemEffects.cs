@@ -2,8 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
-using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById;
-using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById;
+using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Details;
+using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit;
 using BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete

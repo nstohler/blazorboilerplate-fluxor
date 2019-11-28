@@ -1,8 +1,6 @@
 ﻿@page "/blazor-fluxor"
-
-@using BlazorBoilerplate.Client.Store.BlazorFluxor
-@using BlazorBoilerplate.Client.Store.BlazorFluxor.DetailById
-@using BlazorBoilerplate.Client.Store.BlazorFluxor.EditById
+@using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Details
+@using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit
 @using BlazorBoilerplate.Client.Store.ToDoItem
 @using BlazorBoilerplate.Client.Store.ToDoItem.Delete
 @inherits BlazorFluxorBase
@@ -59,20 +57,20 @@
         </ul>
 
         <div>
-            selected-detail: @BlazorFluxorState.Value.DetailToDoId <br />
-            selected-edit: @BlazorFluxorState.Value.EditToDoId
+            selected-detail: @DetailEditToDoItemState.Value.DetailToDoId <br />
+            selected-edit: @DetailEditToDoItemState.Value.EditToDoId
         </div>
 
         <hr />
 
-        @if (BlazorFluxorState.Value.DetailToDoDto != null)
+        @if (DetailEditToDoItemState.Value.DetailToDoDto != null)
         {
             <div>
                 <h5>Detail ToDo:</h5>
                 <div>
-                    Id: @BlazorFluxorState.Value.DetailToDoDto.Id <br />
-                    Title: @BlazorFluxorState.Value.DetailToDoDto.Title <br />
-                    Completed: @BlazorFluxorState.Value.DetailToDoDto.IsCompleted
+                    Id: @DetailEditToDoItemState.Value.DetailToDoDto.Id <br />
+                    Title: @DetailEditToDoItemState.Value.DetailToDoDto.Title <br />
+                    Completed: @DetailEditToDoItemState.Value.DetailToDoDto.IsCompleted
                 </div>
             </div>
             <MatButton Icon="playlist_add" Label="Close Details" OnClick="@(() => Dispatcher.Dispatch(new DetailByIdToDoItemAction(null)))" Raised="true"></MatButton>
@@ -80,17 +78,17 @@
 
         <hr />
 
-        @if (BlazorFluxorState.Value.EditToDoDto != null)
+        @if (DetailEditToDoItemState.Value.EditToDoDto != null)
         {
             <h5>Edit ToDo:</h5>
             <div>
-                Id: @BlazorFluxorState.Value.EditToDoDto.Id <br />
-                Title: @BlazorFluxorState.Value.EditToDoDto.Title <br />
-                <span @onclick="@(() => BlazorFluxorState.Value.EditToDoDto.IsCompleted = !BlazorFluxorState.Value.EditToDoDto.IsCompleted)">
-                    Completed: @BlazorFluxorState.Value.EditToDoDto.IsCompleted
+                Id: @DetailEditToDoItemState.Value.EditToDoDto.Id <br />
+                Title: @DetailEditToDoItemState.Value.EditToDoDto.Title <br />
+                <span @onclick="@(() => DetailEditToDoItemState.Value.EditToDoDto.IsCompleted = !DetailEditToDoItemState.Value.EditToDoDto.IsCompleted)">
+                    Completed: @DetailEditToDoItemState.Value.EditToDoDto.IsCompleted
                 </span>
             </div>
-            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(BlazorFluxorState.Value.EditToDoDto))" Raised="true"></MatButton> 
+            <MatButton Icon="playlist_add" Label="Save" OnClick="@((e) => UpdateTodo(DetailEditToDoItemState.Value.EditToDoDto))" Raised="true"></MatButton> 
             @if (ToDoItemState.Value.IsProcessing)
             {
                 <text>working...</text>
@@ -99,7 +97,7 @@
             <MatButton Icon="playlist_add" Label="Cancel" OnClick="@((e) => CancelSelection())" Raised="true"></MatButton>
             <br />
             <br />
-            <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(BlazorFluxorState.Value.EditToDoDto)))" Raised="true"></MatButton>
+            <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(DetailEditToDoItemState.Value.EditToDoDto)))" Raised="true"></MatButton>
         }
 
         <hr />

@@ -8,7 +8,7 @@ namespace BlazorBoilerplate.Client.Store.Counter.Increment
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterAction action)
         {
-            var newState = CounterState.CreateNew();
+            var newState = CounterStateFactory.CreateNew();
 
             newState.IsLoading    = true;
 
@@ -20,7 +20,7 @@ namespace BlazorBoilerplate.Client.Store.Counter.Increment
         {
             //var newState = (CounterState) FastDeepCloner.DeepCloner.Clone(state); // clone
 
-            var newState = CounterState.CreateNew(); // create default
+            var newState = CounterStateFactory.CreateNew(); // create default
 
             if (action.IsSuccess)
             {
