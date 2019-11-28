@@ -2,7 +2,7 @@
 @*@attribute [Authorize] Uncomment to Secure this page*@
 
 @*@inject HttpClient Http
-@inject IMatToaster matToaster*@
+    @inject IMatToaster matToaster*@
 
 @inherits TodoListBase
 
@@ -13,39 +13,46 @@
     Delete is Protected to Admin users only.
 </p>
 
-<MatTable Class="mat-elevation-z5" Items="@todos" LoadInitialData="true" Striped="true" FilterByColumnName="Title" DebounceMilliseconds="150" PageSize="10">
-    <MatTableHeader>
-        <th>
-            <div style="width:135px;">
-                <MatButton Icon="playlist_add" Label="New Todo" OnClick="@((e) => OpenDialog())" Raised="true"></MatButton>
-            </div>
-        </th>
-        <th>Id</th>
-        <th>Completed</th>
-        <th style="min-width:180px;">Todo</th>
-    </MatTableHeader>
-    <MatTableRow Context="TodoRow">
-        <td>
-            <MatIconButton Icon="delete" OnClick="@(() => OpenDeleteDialog(TodoRow.Id))"></MatIconButton>
-        </td>
-        <td>@String.Format("{0:d}", TodoRow.Id)</td>
-        <td><MatCheckbox Checked="@TodoRow.IsCompleted" class="filled-in chk-col-blue" CheckedChanged="@((e) => Update(TodoRow))"></MatCheckbox></td>
-        <td>@TodoRow.Title</td>
-    </MatTableRow>
-</MatTable>
+@if (FetchToDoItemsState.Value.IsLoading)
+{
+    <em>Loading...</em>
+}
+@if (FetchToDoItemsState.Value.ToDoItems != null)
+{
+    <MatTable Class="mat-elevation-z5" Items="@FetchToDoItemsState.Value.ToDoItems" LoadInitialData="true" Striped="true" FilterByColumnName="Title" DebounceMilliseconds="150" PageSize="10">
+        <MatTableHeader>
+            <th>
+                <div style="width: 135px;">
+                    <MatButton Icon="playlist_add" Label="New Todo" OnClick="@((e) => OpenDialog())" Raised="true"></MatButton>
+                </div>
+            </th>
+            <th>Id</th>
+            <th>Completed</th>
+            <th style="min-width: 180px;">Todo</th>
+        </MatTableHeader>
+        <MatTableRow Context="TodoRow">
+            <td>
+                <MatIconButton Icon="delete" OnClick="@(() => OpenDeleteDialog(TodoRow.Id))"></MatIconButton>
+            </td>
+            <td>@String.Format("{0:d}", TodoRow.Id)</td>
+            <td><MatCheckbox Checked="@TodoRow.IsCompleted" class="filled-in chk-col-blue" CheckedChanged="@((e) => Update(TodoRow))"></MatCheckbox></td>
+            <td>@TodoRow.Title</td>
+        </MatTableRow>
+    </MatTable>
+}
 
 <MatDialog @bind-IsOpen="@dialogIsOpen">
     <MatDialogTitle>Create Todo</MatDialogTitle>
     <MatDialogContent>
-        <EditForm Model="@todo" OnValidSubmit="@CreateTodo">
+        <EditForm Model="@createTodo" OnValidSubmit="@CreateTodo">
             <DataAnnotationsValidator />
             <ValidationSummary />
             <fieldset>
                 <div class="form-group">
-                    <MatTextField @bind-Value="@todo.Title" Label="Title" Icon="title" IconTrailing="true" FullWidth="true" Required="true"></MatTextField>
+                    <MatTextField @bind-Value="@createTodo.Title" Label="Title" Icon="title" IconTrailing="true" FullWidth="true" Required="true"></MatTextField>
                 </div>
                 <div class="form-group">
-                    <MatCheckbox @bind-Checked="@todo.IsCompleted" Label="Completed"></MatCheckbox>
+                    <MatCheckbox @bind-Checked="@createTodo.IsCompleted" Label="Completed"></MatCheckbox>
                 </div>
             </fieldset>
         </EditForm>
@@ -59,7 +66,7 @@
 <MatDialog @bind-IsOpen="@deleteDialogOpen" Style="z-index:100">
     <MatDialogTitle><MatIcon Icon="warning"></MatIcon> Confirm Delete</MatDialogTitle>
     <MatDialogContent>
-        Are you sure you want to delete todo "@todo.Title" ?
+        Are you sure you want to delete todo "@deleteTodo?.Title" ?
     </MatDialogContent>
     <MatDialogActions>
         <MatButton OnClick="@(e => { deleteDialogOpen = false; })">Cancel</MatButton>

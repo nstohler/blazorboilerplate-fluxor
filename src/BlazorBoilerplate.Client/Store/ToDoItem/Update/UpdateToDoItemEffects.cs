@@ -11,12 +11,12 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
     public class UpdateToDoItemEffects
     {
         private readonly HttpClient _httpClient;
-        private readonly IMatToaster _matToaster;
+        //private readonly IMatToaster _matToaster;
 
-        public UpdateToDoItemEffects(HttpClient httpClient, IMatToaster matToaster)
+        public UpdateToDoItemEffects(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _matToaster = matToaster;
+            //_matToaster = matToaster;
         }
 
         [EffectMethod]
@@ -62,7 +62,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
             dispatcher.Dispatch(new Store.DetailEditToDoItem.RefreshDetail.RefreshDetailToDoItemAction(action.TodoDto.Id));
 
             // TODO: move back into component?
-            _matToaster.Add("Update Success", MatToastType.Success, "Todo item updated");
+            //_matToaster.Add("Update Success", MatToastType.Success, "Todo item updated");
 
             return Task.CompletedTask;
         }
