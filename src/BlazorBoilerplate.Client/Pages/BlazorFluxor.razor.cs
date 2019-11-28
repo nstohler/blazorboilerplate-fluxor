@@ -42,14 +42,25 @@ namespace BlazorBoilerplate.Client.Pages
 
             //ToDoItemState.StateChanged += OnToDoItemStateOnStateChanged;
 
+            //var sub = this.ObservableStore.Actions
+            //    .TakeAction<IncrementCounterResultAction>()
+            //    .Subscribe(action =>
+            //    {
+            //        Console.WriteLine(
+            //            $"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
+            //        ClearAddForm();
+            //        StateHasChanged();
+            //    });
+
             var sub = this.ObservableStore.Actions
-                .TakeAction<IncrementCounterResultAction>()
+                .TakeAction<CreateNewToDoItemResultAction>()
                 .Subscribe(action =>
                 {
-                    Console.WriteLine(
-                        $"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
-                    ClearAddForm();
-                    StateHasChanged();
+                    if (action.IsSuccess)
+                    {
+                        ClearAddForm();
+                        StateHasChanged();
+                    }
                 });
 
             _subscriptions.Add(sub);
