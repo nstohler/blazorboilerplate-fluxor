@@ -10,6 +10,7 @@ namespace BlazorBoilerplate.Client.Store.Counter.Increment
         {
             var newState = CounterStateFactory.CreateNew();
 
+            newState.CurrentCount = state.CurrentCount;
             newState.IsLoading    = true;
 
             return newState;

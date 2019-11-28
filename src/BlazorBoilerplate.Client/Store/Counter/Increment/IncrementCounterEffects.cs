@@ -20,7 +20,7 @@ namespace BlazorBoilerplate.Client.Store.Counter.Increment
             try
             {
                 Console.WriteLine("CounterEffect IncrementCounterAction");
-                await Task.Delay(500);
+                //await Task.Delay(500);
 
                 dispatcher.Dispatch(new IncrementCounterResultAction(action.PrevCount + 1, true, null));
             }

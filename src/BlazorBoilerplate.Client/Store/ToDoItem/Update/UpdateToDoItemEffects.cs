@@ -25,7 +25,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
             try
             {
                 ApiResponseDto apiResponse = await _httpClient.PutJsonAsync<ApiResponseDto>("api/todo", action.TodoDto);
-                await Task.Delay(2000); // simulate long roundtrip time
+                //await Task.Delay(2000); // simulate long roundtrip time
 
                 if (!apiResponse.IsError)
                 {
