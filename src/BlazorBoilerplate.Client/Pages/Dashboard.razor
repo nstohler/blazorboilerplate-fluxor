@@ -61,7 +61,7 @@
 
         public async Task IncrementCount()
         {
-            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, null));
+            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
 
             profileCurrentCount++;
             await appState.UpdateUserProfileCount(profileCurrentCount);

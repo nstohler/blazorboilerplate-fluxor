@@ -109,6 +109,6 @@
 
     private void IncrementCount()
     {
-        Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, null));
+        Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
     }
 }

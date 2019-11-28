@@ -6,10 +6,15 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.SideEffects
 {
-    public class CreateNewToDoItemSuccessReducer : Reducer<FetchToDoItemsState, CreateNewToDoItemSuccessAction>
+    public class CreateNewToDoItemSuccessReducer : Reducer<FetchToDoItemsState, CreateNewToDoItemResultAction>
     {
-        public override FetchToDoItemsState Reduce(FetchToDoItemsState state, CreateNewToDoItemSuccessAction action)
+        public override FetchToDoItemsState Reduce(FetchToDoItemsState state, CreateNewToDoItemResultAction action)
         {
+            if (!action.IsSuccess)
+            {
+                return state;
+            }
+
             if (state.ToDoItems == null)
             {
                 var todos = new List<TodoDto>() { action.Todo };

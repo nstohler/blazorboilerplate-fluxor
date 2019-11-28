@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Blazor.Fluxor;
-using BlazorBoilerplate.Client.Store.Counter.Increment;
 
-namespace BlazorBoilerplate.Client.Store.Counter
+namespace BlazorBoilerplate.Client.Store.Counter.Increment
 {
-    public class CounterReducers
+    public class IncrementCounterReducers
     {
-        // injection possible...
-
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterAction action)
         {
-            //var newState = (CounterState) FastDeepCloner.DeepCloner.Clone(state);
             var newState = CounterState.CreateNew();
 
             newState.IsLoading    = true;
@@ -26,10 +18,10 @@ namespace BlazorBoilerplate.Client.Store.Counter
         [ReducerMethod]
         public ICounterState Reduce(ICounterState state, IncrementCounterResultAction action)
         {
-            //var newState = (CounterState) FastDeepCloner.DeepCloner.Clone(state);
-            var newState = CounterState.CreateNew();
+            //var newState = (CounterState) FastDeepCloner.DeepCloner.Clone(state); // clone
 
-            // handle success/failed 
+            var newState = CounterState.CreateNew(); // create default
+
             if (action.IsSuccess)
             {
                 newState.IsLoaded                   = true;
@@ -40,7 +32,6 @@ namespace BlazorBoilerplate.Client.Store.Counter
             {
                 newState.ErrorMessage = action.ErrorMessage;
             }
-
             return newState;
         }
     }

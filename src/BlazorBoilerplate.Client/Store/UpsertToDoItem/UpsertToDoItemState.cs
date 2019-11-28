@@ -12,33 +12,37 @@ namespace BlazorBoilerplate.Client.Store.UpsertToDoItem
         // allow setters / use interface?
 
         // TODO: rename to isProcessing?
-        public bool              IsProcessing      { get; set; }
-        public TodoDto           TodoDto           { get; set; }
-        public string            ErrorMessage      { get; set; }
-        public ToDoItemOperation ToDoItemOperation { get; set; }
+        public bool              IsProcessing          { get; set; }
+        public TodoDto           TodoDto               { get; set; }
+        public string            ErrorMessage          { get; set; }
+        public ToDoItemOperation ToDoItemOperation     { get; set; }
+        public DateTime          LastOperationDateTime { get; set; }
 
         // TODO: add operation enum (create | update | delete)
 
         public UpsertToDoItemState(bool isProcessing, TodoDto todoDto, string errorMessage,
-            ToDoItemOperation toDoItemOperation)
+            ToDoItemOperation toDoItemOperation, DateTime lastOperationDateTime)
         {
-            IsProcessing      = isProcessing;
-            TodoDto           = todoDto;
-            ErrorMessage      = errorMessage;
-            ToDoItemOperation = toDoItemOperation;
+            IsProcessing          = isProcessing;
+            TodoDto               = todoDto;
+            ErrorMessage          = errorMessage;
+            ToDoItemOperation     = toDoItemOperation;
+            LastOperationDateTime = lastOperationDateTime;
         }
 
         public static UpsertToDoItemState CreateNew()
         {
-            return new UpsertToDoItemState(false, null, null, ToDoItemOperation.None);
+            return new UpsertToDoItemState(false, null, null, ToDoItemOperation.None, DateTime.UtcNow);
         }
     }
 
     public interface IUpsertToDoItemState
     {
-        bool    IsProcessing { get; }
-        TodoDto TodoDto      { get; }
-        string  ErrorMessage { get; }
+        bool              IsProcessing          { get; }
+        TodoDto           TodoDto               { get; }
+        string            ErrorMessage          { get; }
+        ToDoItemOperation ToDoItemOperation     { get; }
+        DateTime          LastOperationDateTime { get; }
     }
 
     public enum ToDoItemOperation

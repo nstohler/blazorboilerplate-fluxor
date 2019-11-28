@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
-using BlazorBoilerplate.Client.Store.Counter.Increment;
 
-namespace BlazorBoilerplate.Client.Store.Counter
+namespace BlazorBoilerplate.Client.Store.Counter.Increment
 {
-    public class CounterEffects
+    public class IncrementCounterEffects
     {
         private readonly HttpClient _httpClient;
 
-        public CounterEffects(HttpClient httpClient)
+        public IncrementCounterEffects(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

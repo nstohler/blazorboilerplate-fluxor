@@ -2,11 +2,11 @@
 
 namespace BlazorBoilerplate.Client.Store.UpsertToDoItem.Update
 {
-    public class UpsertToDoItemSuccessAction
+    public class UpdateToDoItemAction
     {
-        public TodoDto TodoDto { get; }
+        public TodoDto TodoDto { get; private set; }
 
-        public UpsertToDoItemSuccessAction(TodoDto todoDto)
+        public UpdateToDoItemAction(TodoDto todoDto)
         {
             TodoDto = todoDto;
         }

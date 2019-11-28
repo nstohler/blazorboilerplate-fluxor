@@ -39,31 +39,20 @@ namespace BlazorBoilerplate.Client.Pages
 
         private List<IDisposable> _subscriptions = new List<IDisposable>();
 
-        private DateTime _lastSuccessCounterPostTime = DateTime.Now;
-
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
-            //var sub = this.ObservableStore.Actions
-            //    .TakeAction<IncrementCounterResultAction>()
-            //    .Subscribe(action =>
-            //    {
-            //        Console.WriteLine($"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
-            //        ClearAddForm();
-            //        StateHasChanged();
-            //    });
+            var sub = this.ObservableStore.Actions
+                .TakeAction<IncrementCounterResultAction>()
+                .Subscribe(action =>
+                {
+                    Console.WriteLine($"ObservableStore.Actions for IncrementCounterResultAction @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {action.Count}");
+                    ClearAddForm();
+                    StateHasChanged();
+                });
 
-            //_subscriptions.Add(sub);
-
-
-            ////CounterState.Subscribe(this);
-            ////FetchToDoItemsState.Subscribe(this);
-
-            CounterState.StateChanged += CounterStateOnStateChanged;
-
-            //FetchToDoItemsState.StateChanged += OnFetchToDoItemsStateOnStateChanged;
-            //UpsertToDoItemState.StateChanged += OnUpsertToDoItemStateOnStateChanged;
+            _subscriptions.Add(sub);
 
             if (FetchToDoItemsState.Value.ToDoItems == null)
             {
@@ -71,49 +60,9 @@ namespace BlazorBoilerplate.Client.Pages
             }
         }
 
-        private void CounterStateOnStateChanged(object sender, ICounterState e)
-        {
-            if (e.LastSuccessCounterPostTime > _lastSuccessCounterPostTime)
-            {
-                Console.WriteLine($"CounterStateOnStateChanged @ BlazorFluxor.razor.cs | counter is {CounterState.Value.CurrentCount} / {e.CurrentCount}");
-                ClearAddForm();
-                StateHasChanged();
-            }
-        }
-
-        //private void OnUpsertToDoItemStateOnStateChanged(object sender, IUpsertToDoItemState e)
-        //{
-        //    //Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsProcessing} - {e.IsProcessing} | {sender.ToString()} | {sender.GetType().Name}");
-        //    Console.WriteLine($"OnUpsertToDoItem state has changed! isUpdating: {UpsertToDoItemState.Value.IsProcessing} - {e.IsProcessing}");
-        //    if (!e.IsProcessing && e.ErrorMessage == null)
-        //    {
-        //        // insert/update/delete just completed
-        //        // show a toast or something...
-        //        Console.WriteLine($"TOAST: insert/update/delete operation successfully completed");
-        //    }
-        //}
-
-        //private void OnFetchToDoItemsStateOnStateChanged(object sender, FetchToDoItemsState state)
-        //{
-        //    Console.WriteLine("ToDoItem state has changed!");
-        //}
-
         protected void IncrementCount()
         {
-            // Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, this));
-
-            //Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, 
-            //    () =>
-            //    {
-            //        Console.WriteLine($"DoneAction @ BlazorFluxor.razor.cs");
-
-            //        ClearAddForm();
-            //        StateHasChanged();
-            //    }
-            //    ));
-
-            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount, null));
-
+            Dispatcher.Dispatch(new IncrementCounterAction(CounterState.Value.CurrentCount));
         }
 
         protected void LoadToDos()
@@ -123,7 +72,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void UpdateTodo(TodoDto toDoItem)
         {
-            Dispatcher.Dispatch(new UpsertToDoItemAction(toDoItem));
+            Dispatcher.Dispatch(new UpdateToDoItemAction(toDoItem));
 
             // report back success after done...
         }
@@ -142,10 +91,10 @@ namespace BlazorBoilerplate.Client.Pages
         {
             Console.WriteLine("Disposing...");
 
-            CounterState.StateChanged -= CounterStateOnStateChanged;
-            //FetchToDoItemsState.StateChanged -= OnFetchToDoItemsStateOnStateChanged;
+            // disconnect events
             //UpsertToDoItemState.StateChanged -= OnUpsertToDoItemStateOnStateChanged;
 
+            // unsubscribe
             foreach (var subscription in _subscriptions)
             {
                 subscription.Dispose();
