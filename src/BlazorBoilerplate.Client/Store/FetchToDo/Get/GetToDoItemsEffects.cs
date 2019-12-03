@@ -56,12 +56,12 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 
             //action.ResultAction?.Invoke(action);
             
-            //action.ExecuteResultAction(action);
-            action.ExecuteResultAction();
+            //action.ExecuteNotifyComponent(action);
+            action.ExecuteNotifyComponent();
 
-            // ResultActionBase.ExecuteResultAction(action);
+            // ResultActionBase.ExecuteNotifyComponent(action);
 
-            // action.ExecuteResultAction();
+            // action.ExecuteNotifyComponent();
 
             return Task.CompletedTask;
         }

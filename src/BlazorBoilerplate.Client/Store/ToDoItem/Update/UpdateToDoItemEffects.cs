@@ -30,17 +30,17 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
                 if (!apiResponse.IsError)
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action.TodoDto, true, null));
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action, action.TodoDto, true, null));
                 }
                 else
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(null, false,
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action, null, false,
                         apiResponse.Message + " : " + apiResponse.StatusCode));
                 }
             }
             catch (Exception e)
             {
-                dispatcher.Dispatch(new UpdateToDoItemResultAction(null, false, e.Message));
+                dispatcher.Dispatch(new UpdateToDoItemResultAction(action, null, false, e.Message));
             }
             finally
             {
@@ -66,12 +66,15 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
             // dispatcher.Dispatch(new DetailByIdToDoItemAction(action.TodoDto.Id));
 
             // TODO: refresh active detail item (if it was set before!)
-            dispatcher.Dispatch(new Store.DetailEditToDoItem.RefreshDetail.RefreshDetailToDoItemAction(action.TodoDto.Id));
+            dispatcher.Dispatch(
+                new Store.DetailEditToDoItem.RefreshDetail.RefreshDetailToDoItemAction(action.TodoDto.Id));
 
             // TODO: move back into component?
             //_matToaster.Add("Update Success", MatToastType.Success, "Todo item updated");
 
             Console.WriteLine($"   ==> EFFECT: UpdateToDoItemResultAction: dispatch actions to other listeners DONE");
+
+            action.ExecuteNotifyComponent();
 
             return Task.CompletedTask;
         }

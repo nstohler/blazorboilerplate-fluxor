@@ -1,10 +1,12 @@
-﻿using BlazorBoilerplate.Shared.Dto;
+﻿using BlazorBoilerplate.Client.Store.Extensions;
+using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
-    public class UpdateToDoItemResultAction
+    public class UpdateToDoItemResultAction : ComponentNotificationActionBase<UpdateToDoItemResultAction>, IActionWithSideEffect
     {
-        public UpdateToDoItemResultAction(TodoDto todoDto, bool isSuccess, string errorMessage)
+        public UpdateToDoItemResultAction(ComponentNotificationActionBase<UpdateToDoItemResultAction> componentNotificationAction, TodoDto todoDto, bool isSuccess, string errorMessage) 
+            : base(componentNotificationAction)
         {
             TodoDto      = todoDto;
             IsSuccess    = isSuccess;

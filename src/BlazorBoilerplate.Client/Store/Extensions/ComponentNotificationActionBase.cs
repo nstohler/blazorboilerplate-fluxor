@@ -4,7 +4,7 @@ using EnsureThat;
 
 namespace BlazorBoilerplate.Client.Store.Extensions
 {
-    public class ComponentNotificationActionBase<TResultAction> : IResultAction
+    public abstract class ComponentNotificationActionBase<TResultAction> : IResultAction
         where TResultAction : class
     {
         public ComponentNotificationActionBase(Action<TResultAction> notificationAction)
@@ -20,7 +20,7 @@ namespace BlazorBoilerplate.Client.Store.Extensions
 
         [JsonIgnore] private Action<TResultAction> NotificationAction { get; set; }
 
-        public void ExecuteResultAction()
+        public void ExecuteNotifyComponent()
         {
             var actionParams = this as TResultAction;
 

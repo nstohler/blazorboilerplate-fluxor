@@ -126,9 +126,25 @@ namespace BlazorBoilerplate.Client.Pages
 
             //_subscriptions.Add(_updateSubscription);
 
-            Console.WriteLine($"Update TODO: PRE");
-            Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo));
-            Console.WriteLine($"Update TODO: post");
+            Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo, action =>
+            {
+                Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
+                if (action.IsSuccess)
+                {
+                    matToaster.Add("Updated ToDo", MatToastType.Success);
+                }
+                else
+                {
+                    if (updateTodo != null)
+                    {
+                        updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
+                    }
+
+                    todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
+                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
+                    updateTodo = null;
+                }
+            }));
         }
 
         protected async Task Delete()

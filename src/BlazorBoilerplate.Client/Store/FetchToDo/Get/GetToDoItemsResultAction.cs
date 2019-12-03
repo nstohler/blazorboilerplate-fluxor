@@ -8,11 +8,11 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsResultAction : ComponentNotificationActionBase<GetToDoItemsResultAction>
+    public class GetToDoItemsResultAction : ComponentNotificationActionBase<GetToDoItemsResultAction>, IActionWithSideEffect
     {
-        public GetToDoItemsResultAction(ComponentNotificationActionBase<GetToDoItemsResultAction> notificationAction, List<TodoDto> toDoItems, bool isSuccess,
+        public GetToDoItemsResultAction(ComponentNotificationActionBase<GetToDoItemsResultAction> componentNotificationAction, List<TodoDto> toDoItems, bool isSuccess,
             string errorMessage)
-            : base(notificationAction)
+            : base(componentNotificationAction)
         {
             ToDoDoItems  = toDoItems;
             IsSuccess    = isSuccess;

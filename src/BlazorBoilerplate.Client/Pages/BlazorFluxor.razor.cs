@@ -83,7 +83,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void UpdateTodo(TodoDto toDoItem)
         {
-            Dispatcher.Dispatch(new UpdateToDoItemAction(toDoItem));
+            Dispatcher.Dispatch(new UpdateToDoItemAction(toDoItem, null));
 
             // report back success after done...
         }
