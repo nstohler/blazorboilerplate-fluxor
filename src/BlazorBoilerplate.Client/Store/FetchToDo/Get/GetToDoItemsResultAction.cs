@@ -12,8 +12,9 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
     {
         public GetToDoItemsResultAction(ResultActionBase baseAction, List<TodoDto> toDoItems, bool isSuccess,
             string errorMessage)
-            : base(baseAction.ExecuteResultAction)
+            : base(baseAction.ResultAction)
         {
+            
             // base.ResultAction = baseAction.ResultAction;
 
             //ToDoDoItems       = toDoItems;

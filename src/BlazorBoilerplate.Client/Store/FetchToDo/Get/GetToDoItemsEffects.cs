@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
+using BlazorBoilerplate.Client.Store.Extensions;
 using BlazorBoilerplate.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
@@ -43,7 +44,7 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
             }
             catch (Exception e)
             {
-                Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction failed ex");
+                Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction failed ex {e.Message}");
                 dispatcher.Dispatch(new GetToDoItemsResultAction(action, null, false, e.Message));
             }
         }
@@ -54,10 +55,12 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
             Console.WriteLine($"GetToDoItemsResultAction effect / start callback");
 
             //action.ResultAction?.Invoke(action);
-            //action.ExecuteResultAction(action);
+            
             action.ExecuteResultAction(action);
 
+            // ResultActionBase.ExecuteResultAction(action);
 
+            // action.ExecuteResultAction();
 
             return Task.CompletedTask;
         }

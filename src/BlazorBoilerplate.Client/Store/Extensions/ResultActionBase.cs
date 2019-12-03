@@ -24,19 +24,30 @@ namespace BlazorBoilerplate.Client.Store.Extensions
             ResultAction = resultAction;
         }
 
-        [JsonIgnore] protected Action<IResultAction> ResultAction { get; private set; }
+        [JsonIgnore] public Action<IResultAction> ResultAction { get; private set; }
 
         //public void ExecuteResultAction(IResultAction action)
         //{
         //    this.ResultAction?.Invoke(action);
         //}
 
-        public void ExecuteResultAction<TResultAction>(TResultAction action) where TResultAction : class
-        {
-            var castParamAction = action as TResultAction;
-            var castAction      = ResultAction as Action<TResultAction>;
+        //public static void ExecuteResultAction<TResultAction>(TResultAction resultActionParams)
+        //    where TResultAction : IResultAction
+        //{
+        //    var castAction   = resultActionParams as Action<TResultAction>;
 
-            castAction?.Invoke(castParamAction);
+        //    castAction?.Invoke(resultActionParams);
+        //}
+
+        public void ExecuteResultAction<TResultAction>(TResultAction resultActionParams)
+            where TResultAction : IResultAction
+        {
+            //var castParamAction = resultActionParams as TResultAction;
+            //var castAction      = ResultAction as Action<TResultAction>;
+
+            var castAction = Convert<IResultAction, TResultAction>(this.ResultAction);
+
+            castAction?.Invoke(resultActionParams);
         }
 
         //public object Data         { get; protected set; }
@@ -45,9 +56,52 @@ namespace BlazorBoilerplate.Client.Store.Extensions
 
         // https://stackoverflow.com/questions/3444246/convert-actiont-to-actionobject
         protected static Action<IResultAction> Convert<T>(Action<T> myActionT)
+            // where T : IResultAction
         {
-            if (myActionT == null) return null;
-            else return new Action<object>(o => myActionT((T)o));
+            //return Convert<T, IResultAction>(myActionT);
+
+            if (myActionT == null)
+            {
+                return null;
+            }
+
+            return new Action<object>(o => myActionT((T) o));
+        }
+
+        protected static Action<TOut> Convert<TIn, TOut>(Action<TIn> myActionT)
+            where TIn : IResultAction
+            where TOut : IResultAction
+        {
+            //if (myActionT == null)
+            //{
+            //    return null;
+            //}
+
+            var castAction = myActionT as Action<TOut>;
+
+            return castAction;
+
+            ////return new Action<TOut>(o => myActionT(o));
+
+            //if (myActionT == null)
+            //{
+            //    return null;
+            //}
+            ////var action = new Action<TOut>(obj =>
+            ////{
+            ////    var castObj = (TIn)System.Convert.ChangeType(obj, typeof(TOut));
+            ////    //actionStr(castObj);
+            ////    myActionT(castObj);
+            ////});
+            //var action = new Action<TOut>(obj =>
+            //{
+            //    var inAction = myActionT as Action<TOut>;
+            //    //var castObj = (TIn)System.Convert.ChangeType(obj, typeof(TOut));
+            //    //actionStr(castObj);
+            //    //myActionT(castObj);
+            //    inAction(obj);
+            //});
+            //return action;
         }
     }
 }

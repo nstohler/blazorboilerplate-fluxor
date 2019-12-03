@@ -5,7 +5,9 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
     public class GetToDoItemsAction : ResultActionBase, IActionWithSideEffect
     {
-        public GetToDoItemsAction(Action<GetToDoItemsResultAction> resultAction) : base(Convert(resultAction))
+        public GetToDoItemsAction(Action<GetToDoItemsResultAction> resultAction) 
+            : base(Convert(resultAction))
+            //: base(Convert(resultAction))
         {
         }
 
