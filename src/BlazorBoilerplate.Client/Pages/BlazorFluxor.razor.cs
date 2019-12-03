@@ -67,7 +67,7 @@ namespace BlazorBoilerplate.Client.Pages
 
             if (FetchToDoItemsState.Value.ToDoItems == null)
             {
-                Dispatcher.Dispatch(new GetToDoItemsAction());
+                Dispatcher.Dispatch(new GetToDoItemsAction(null));
             }
         }
 
@@ -78,7 +78,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void LoadToDos()
         {
-            Dispatcher.Dispatch(new GetToDoItemsAction());
+            Dispatcher.Dispatch(new GetToDoItemsAction(null));
         }
 
         protected void UpdateTodo(TodoDto toDoItem)

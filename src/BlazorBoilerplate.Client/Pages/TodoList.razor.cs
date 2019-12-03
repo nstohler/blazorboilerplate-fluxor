@@ -73,24 +73,21 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void LoadTodos()
         {
-            Dispatcher.Dispatch(new GetToDoItemsAction()
-            {
-                ResultAction = (getToDoItemsResultAction) =>
+            Dispatcher.Dispatch(new GetToDoItemsAction(getToDoItemsResultAction =>
                 {
                     Console.WriteLine($"ResultAction invoked!");
                     if (getToDoItemsResultAction.IsSuccess)
                     {
-                        matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos", MatToastType.Success);
+                        matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos",
+                            MatToastType.Success);
                     }
                     else
                     {
-                        matToaster.Add(getToDoItemsResultAction.ErrorMessage, MatToastType.Danger, "Error loading todos");
+                        matToaster.Add(getToDoItemsResultAction.ErrorMessage, MatToastType.Danger,
+                            "Error loading todos");
                     }
-                }
-            });
-
-            // TODO: show toast when loaded
-
+                })
+            );
         }
 
         protected async Task Update(TodoDto todo)
