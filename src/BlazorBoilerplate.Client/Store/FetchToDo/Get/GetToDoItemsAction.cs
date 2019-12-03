@@ -3,9 +3,9 @@ using BlazorBoilerplate.Client.Store.Extensions;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsAction : ResultActionBase<GetToDoItemsResultAction>, IActionWithSideEffect
+    public class GetToDoItemsAction : ResultActionBase, IActionWithSideEffect
     {
-        public GetToDoItemsAction(Action<GetToDoItemsResultAction> resultAction) : base(resultAction)
+        public GetToDoItemsAction(Action<IResultAction> resultAction) : base(resultAction)
         {
         }
     }

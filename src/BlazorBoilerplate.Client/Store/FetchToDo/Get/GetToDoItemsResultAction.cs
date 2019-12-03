@@ -8,9 +8,9 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsResultAction : ResultActionBase<GetToDoItemsResultAction>
+    public class GetToDoItemsResultAction : ResultActionBase
     {
-        public GetToDoItemsResultAction(ResultActionBase<GetToDoItemsResultAction> baseAction, List<TodoDto> toDoItems, bool isSuccess,
+        public GetToDoItemsResultAction(ResultActionBase baseAction, List<TodoDto> toDoItems, bool isSuccess,
             string errorMessage)
             : base(baseAction)
         {

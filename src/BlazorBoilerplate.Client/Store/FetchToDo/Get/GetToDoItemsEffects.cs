@@ -54,7 +54,10 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
             Console.WriteLine($"GetToDoItemsResultAction effect / start callback");
 
             //action.ResultAction?.Invoke(action);
-            action.ExecuteResultAction(action);
+            //action.ExecuteResultAction(action);
+            action.ExecuteResultActionWithCast(action);
+
+
 
             return Task.CompletedTask;
         }
