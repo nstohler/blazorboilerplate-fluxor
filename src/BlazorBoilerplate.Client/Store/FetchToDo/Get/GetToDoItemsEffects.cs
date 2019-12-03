@@ -56,7 +56,8 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 
             //action.ResultAction?.Invoke(action);
             
-            action.ExecuteResultAction(action);
+            //action.ExecuteResultAction(action);
+            action.ExecuteResultAction();
 
             // ResultActionBase.ExecuteResultAction(action);
 

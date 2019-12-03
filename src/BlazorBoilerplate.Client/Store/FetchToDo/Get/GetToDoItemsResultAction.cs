@@ -8,26 +8,16 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsResultAction : ResultActionBase
+    public class GetToDoItemsResultAction : ComponentNotificationActionBase<GetToDoItemsResultAction>
     {
-        public GetToDoItemsResultAction(ResultActionBase baseAction, List<TodoDto> toDoItems, bool isSuccess,
+        public GetToDoItemsResultAction(ComponentNotificationActionBase<GetToDoItemsResultAction> notificationAction, List<TodoDto> toDoItems, bool isSuccess,
             string errorMessage)
-            : base(baseAction.ResultAction)
+            : base(notificationAction)
         {
-            
-            // base.ResultAction = baseAction.ResultAction;
-
-            //ToDoDoItems       = toDoItems;
-            //base.Data         = toDoItems;
-            //base.IsSuccess    = isSuccess;
-            //base.ErrorMessage = errorMessage;
-
             ToDoDoItems  = toDoItems;
             IsSuccess    = isSuccess;
             ErrorMessage = errorMessage;
         }
-
-        // public List<TodoDto> ToDoDoItems => (List<TodoDto>) base.Data;
 
         public List<TodoDto> ToDoDoItems  { get; private set; }
         public bool          IsSuccess    { get; private set; }
