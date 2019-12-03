@@ -4,7 +4,7 @@ using EnsureThat;
 
 namespace BlazorBoilerplate.Client.Store.Extensions
 {
-    public abstract class ComponentNotificationActionBase<TResultAction> : IResultAction
+    public abstract class ComponentNotificationActionBase<TResultAction> //: IHasExecuteNotifyComponent<TResultAction>
         where TResultAction : class
     {
         public ComponentNotificationActionBase(Action<TResultAction> notificationAction)

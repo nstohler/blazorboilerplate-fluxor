@@ -97,7 +97,7 @@
             <MatButton Icon="playlist_add" Label="Cancel" OnClick="@((e) => CancelSelection())" Raised="true"></MatButton>
             <br />
             <br />
-            <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(DetailEditToDoItemState.Value.EditToDoDto)))" Raised="true"></MatButton>
+            <MatButton Icon="playlist_add" Label="Delete" OnClick="@((e) => Dispatcher.Dispatch(new DeleteToDoItemAction(DetailEditToDoItemState.Value.EditToDoDto, null)))" Raised="true"></MatButton>
         }
 
         <hr />

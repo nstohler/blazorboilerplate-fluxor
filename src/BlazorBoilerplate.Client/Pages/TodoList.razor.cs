@@ -28,13 +28,6 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected IDispatcher Dispatcher { get; set; }
         [Inject] protected IState<IFetchToDoItemsState> FetchToDoItemsState { get; set; }
 
-        [Inject] protected IObservableStore ObservableStore { get; set; }
-
-        private List<IDisposable> _subscriptions = new List<IDisposable>();
-        //private IDisposable _createSubscription = null;
-        //private IDisposable _updateSubscription = null;
-        private IDisposable _deleteSubscription = null;
-
         protected TodoDto createTodo = new TodoDto();
         protected TodoDto deleteTodo = null;
 
@@ -71,25 +64,51 @@ namespace BlazorBoilerplate.Client.Pages
             var updateTodo = todo;
             updateTodo.IsCompleted = !updateTodo.IsCompleted;
 
-            Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo, action =>
+            var updateAction = new UpdateToDoItemAction(updateTodo)
             {
-                Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
-                if (action.IsSuccess)
+                NotificationAction = action =>
                 {
-                    matToaster.Add("Updated ToDo", MatToastType.Success);
-                }
-                else
-                {
-                    if (updateTodo != null)
+                    Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
+                    if (action.IsSuccess)
                     {
-                        updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
+                        matToaster.Add("Updated ToDo", MatToastType.Success);
                     }
+                    else
+                    {
+                        if (updateTodo != null)
+                        {
+                            updateTodo.IsCompleted = !updateTodo.IsCompleted; // reset upon save failure
+                        }
 
-                    todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
-                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-                    updateTodo = null;
+                        todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
+                        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
+                        updateTodo = null;
+                    }
                 }
-            }));
+            };
+
+
+            Dispatcher.Dispatch(updateAction);
+
+            //Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo, action =>
+            //{
+            //    Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
+            //    if (action.IsSuccess)
+            //    {
+            //        matToaster.Add("Updated ToDo", MatToastType.Success);
+            //    }
+            //    else
+            //    {
+            //        if (updateTodo != null)
+            //        {
+            //            updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
+            //        }
+
+            //        todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
+            //        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
+            //        updateTodo = null;
+            //    }
+            //}));
         }
 
         protected async Task Delete()
@@ -99,27 +118,19 @@ namespace BlazorBoilerplate.Client.Pages
                 return;
             }
 
-            _deleteSubscription?.Dispose();
-
-            _deleteSubscription = this.ObservableStore.Actions
-                .TakeAction<DeleteToDoItemResultAction>()
-                .Subscribe(action =>
+            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo, action =>
+            {
+                if (action.IsSuccess)
                 {
-                    if (action.IsSuccess)
-                    {
-                        matToaster.Add("Deleted ToDo", MatToastType.Success);
-                    }
-                    else
-                    {
-                        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Delete Failed");
-                    }
-                    deleteDialogOpen = false;
-                    deleteTodo = null;
-                });
-
-            _subscriptions.Add(_deleteSubscription);
-
-            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo));
+                    matToaster.Add("Deleted ToDo", MatToastType.Success);
+                }
+                else
+                {
+                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Delete Failed");
+                }
+                deleteDialogOpen = false;
+                deleteTodo = null;
+            }));
         }
 
         protected void OpenDialog()
@@ -155,13 +166,6 @@ namespace BlazorBoilerplate.Client.Pages
 
         public void Dispose()
         {
-            _deleteSubscription?.Dispose();
-
-            // unsubscribe
-            foreach (var subscription in _subscriptions)
-            {
-                subscription?.Dispose();
-            }
         }
     }
 }

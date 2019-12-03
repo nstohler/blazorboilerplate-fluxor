@@ -1,10 +1,14 @@
-﻿using BlazorBoilerplate.Shared.Dto;
+﻿using BlazorBoilerplate.Client.Store.Extensions;
+using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
-    public class DeleteToDoItemResultAction
+    public class DeleteToDoItemResultAction : ComponentNotificationActionBase<DeleteToDoItemResultAction>,
+        IActionWithSideEffect
     {
-        public DeleteToDoItemResultAction(TodoDto todoDto, bool isSuccess, string errorMessage)
+        public DeleteToDoItemResultAction(ComponentNotificationActionBase<DeleteToDoItemResultAction> componentNotificationAction,
+            TodoDto todoDto, bool isSuccess, string errorMessage) 
+            : base(componentNotificationAction)
         {
             TodoDto      = todoDto;
             IsSuccess    = isSuccess;

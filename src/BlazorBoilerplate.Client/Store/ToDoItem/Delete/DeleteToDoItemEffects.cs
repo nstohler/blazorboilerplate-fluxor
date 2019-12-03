@@ -8,7 +8,7 @@ using BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
-    public class DeleteToDoItemEffects
+    public class DeleteToDoItemEffects 
     {
         private readonly HttpClient _httpClient;
 
@@ -26,17 +26,17 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action.TodoDto, true, null));
+                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action, action.TodoDto, true, null));
                 }
                 else
                 {
-                    dispatcher.Dispatch(new DeleteToDoItemResultAction(null, false,
+                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action, null, false,
                         "Delete failed : " + response.StatusCode));
                 }
             }
             catch (Exception e)
             {
-                dispatcher.Dispatch(new DeleteToDoItemResultAction(null, false, e.Message));
+                dispatcher.Dispatch(new DeleteToDoItemResultAction(action, null, false, e.Message));
             }
         }
 
@@ -55,6 +55,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
             // TODO: could also clear those using an Effect in BlazorFluxor store
             dispatcher.Dispatch(new DetailByIdToDoItemAction(null));
             dispatcher.Dispatch(new EditByIdToDoItemAction(null));
+
+            action.ExecuteNotifyComponent();
 
             return Task.CompletedTask;
         }
