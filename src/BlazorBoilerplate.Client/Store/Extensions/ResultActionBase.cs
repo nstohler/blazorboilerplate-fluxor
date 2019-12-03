@@ -10,14 +10,14 @@ namespace BlazorBoilerplate.Client.Store.Extensions
 {
     public class ResultActionBase : IResultAction
     {
-        public ResultActionBase(ResultActionBase actionBase)
-        {
-            ResultAction = actionBase.ResultAction;
+        //public ResultActionBase(ResultActionBase actionBase)
+        //{
+        //    ResultAction = actionBase.ResultAction;
 
-            Data         = actionBase.Data;
-            IsSuccess    = actionBase.IsSuccess;
-            ErrorMessage = actionBase.ErrorMessage;
-        }
+        //    //Data         = actionBase.Data;
+        //    //IsSuccess    = actionBase.IsSuccess;
+        //    //ErrorMessage = actionBase.ErrorMessage;
+        //}
 
         public ResultActionBase(Action<IResultAction> resultAction)
         {
@@ -26,12 +26,12 @@ namespace BlazorBoilerplate.Client.Store.Extensions
 
         [JsonIgnore] protected Action<IResultAction> ResultAction { get; private set; }
 
-        public void ExecuteResultAction(IResultAction action)
-        {
-            this.ResultAction?.Invoke(action);
-        }
+        //public void ExecuteResultAction(IResultAction action)
+        //{
+        //    this.ResultAction?.Invoke(action);
+        //}
 
-        public void ExecuteResultActionWithCast<TResultAction>(TResultAction action) where TResultAction : class
+        public void ExecuteResultAction<TResultAction>(TResultAction action) where TResultAction : class
         {
             var castParamAction = action as TResultAction;
             var castAction      = ResultAction as Action<TResultAction>;
@@ -39,8 +39,15 @@ namespace BlazorBoilerplate.Client.Store.Extensions
             castAction?.Invoke(castParamAction);
         }
 
-        public object Data         { get; protected set; }
-        public bool   IsSuccess    { get; protected set; }
-        public string ErrorMessage { get; protected set; }
+        //public object Data         { get; protected set; }
+        //public bool   IsSuccess    { get; protected set; }
+        //public string ErrorMessage { get; protected set; }
+
+        // https://stackoverflow.com/questions/3444246/convert-actiont-to-actionobject
+        protected static Action<IResultAction> Convert<T>(Action<T> myActionT)
+        {
+            if (myActionT == null) return null;
+            else return new Action<object>(o => myActionT((T)o));
+        }
     }
 }

@@ -75,14 +75,14 @@ namespace BlazorBoilerplate.Client.Pages
         {
             Dispatcher.Dispatch(new GetToDoItemsAction(getToDoItemsResultAction =>
                 {
-                    var realAction = (GetToDoItemsResultAction)getToDoItemsResultAction;
+                    //var realAction = (GetToDoItemsResultAction)getToDoItemsResultAction;
                     
                     Console.WriteLine($"ResultAction invoked!");
                     if (getToDoItemsResultAction.IsSuccess)
                     {
                         //var toDoItems = getToDoItemsResultAction.Data as List<TodoDto>;
-                        matToaster.Add($"Loaded {realAction.ToDoDoItems.Count} todos",
-                            MatToastType.Success);
+                        //matToaster.Add($"Loaded {realAction.ToDoDoItems.Count} todos", MatToastType.Success);
+                        matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos", MatToastType.Success);
                     }
                     else
                     {
