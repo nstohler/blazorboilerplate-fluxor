@@ -1,13 +1,19 @@
-﻿using BlazorBoilerplate.Shared.Dto;
+﻿using BlazorBoilerplate.Client.Store.Extensions;
+using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
 {
-    public class CreateNewToDoItemResultAction
+    public class CreateNewToDoItemResultAction :
+        ComponentNotificationActionBase<CreateNewToDoItemResultAction>,
+        IActionWithSideEffect
     {
-        public CreateNewToDoItemResultAction(TodoDto todo, bool isSuccess, string errorMessage)
+        public CreateNewToDoItemResultAction(
+            ComponentNotificationActionBase<CreateNewToDoItemResultAction> componentNotificationActionBase,
+            TodoDto todo, bool isSuccess, string errorMessage)
+            : base(componentNotificationActionBase)
         {
-            Todo = todo;
-            IsSuccess = isSuccess;
+            Todo         = todo;
+            IsSuccess    = isSuccess;
             ErrorMessage = errorMessage;
         }
 

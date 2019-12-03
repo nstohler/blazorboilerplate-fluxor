@@ -31,7 +31,7 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected IObservableStore ObservableStore { get; set; }
 
         private List<IDisposable> _subscriptions = new List<IDisposable>();
-        private IDisposable _createSubscription = null;
+        //private IDisposable _createSubscription = null;
         //private IDisposable _updateSubscription = null;
         private IDisposable _deleteSubscription = null;
 
@@ -45,29 +45,6 @@ namespace BlazorBoilerplate.Client.Pages
         {
             base.OnInitialized();
 
-            //var subUpdate = this.ObservableStore.Actions
-            //    .TakeAction<UpdateToDoItemResultAction>()
-            //    .Subscribe(action =>
-            //    {
-            //        if (action.IsSuccess)
-            //        {
-            //            matToaster.Add("Updated ToDo", MatToastType.Success);
-            //        }
-            //        else
-            //        {
-            //            if (updateTodo != null)
-            //            {
-            //                updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
-            //            }
-
-            //            todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
-            //            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-            //        }
-            //    });
-
-            //_subscriptions.Add(subUpdate);
-
-            //Dispatcher.Dispatch(new GetToDoItemsAction());
             LoadTodos();
         }
 
@@ -75,13 +52,9 @@ namespace BlazorBoilerplate.Client.Pages
         {
             Dispatcher.Dispatch(new GetToDoItemsAction(getToDoItemsResultAction =>
                 {
-                    //var realAction = (GetToDoItemsResultAction)getToDoItemsResultAction;
-
                     Console.WriteLine($"ResultAction invoked!");
                     if (getToDoItemsResultAction.IsSuccess)
                     {
-                        //var toDoItems = getToDoItemsResultAction.Data as List<TodoDto>;
-                        //matToaster.Add($"Loaded {realAction.ToDoDoItems.Count} todos", MatToastType.Success);
                         matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos", MatToastType.Success);
                     }
                     else
@@ -91,40 +64,12 @@ namespace BlazorBoilerplate.Client.Pages
                     }
                 })
             );
-
-            // Dispatcher.Dispatch(new GetToDoItemsAction(null));
         }
 
         protected async Task Update(TodoDto todo)
         {
             var updateTodo = todo;
             updateTodo.IsCompleted = !updateTodo.IsCompleted;
-
-            //_updateSubscription?.Dispose();
-
-            //_updateSubscription = this.ObservableStore.Actions
-            //    .TakeAction<UpdateToDoItemResultAction>()
-            //    .Subscribe(action =>
-            //    {
-            //        Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
-            //        if (action.IsSuccess)
-            //        {
-            //            matToaster.Add("Updated ToDo", MatToastType.Success);
-            //        }
-            //        else
-            //        {
-            //            if (updateTodo != null)
-            //            {
-            //                updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
-            //            }
-
-            //            todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
-            //            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-            //            updateTodo = null;
-            //        }
-            //    });
-
-            //_subscriptions.Add(_updateSubscription);
 
             Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo, action =>
             {
@@ -193,34 +138,23 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected async Task CreateTodo()
         {
-
-            _createSubscription?.Dispose();
-
-            _createSubscription = this.ObservableStore.Actions
-                .TakeAction<CreateNewToDoItemResultAction>()
-                .Subscribe(action =>
+            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo, action =>
+            {
+                if (action.IsSuccess)
                 {
-                    if (action.IsSuccess)
-                    {
-                        matToaster.Add("Created ToDo", MatToastType.Success);
-                        dialogIsOpen = false;
-                        createTodo = new TodoDto(); //reset todo after insert
-                    }
-                    else
-                    {
-                        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Creation Failed");
-                    }
-                });
-
-            _subscriptions.Add(_createSubscription);
-
-            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo));
+                    matToaster.Add("Created ToDo", MatToastType.Success);
+                    dialogIsOpen = false;
+                    createTodo   = new TodoDto(); //reset todo after insert
+                }
+                else
+                {
+                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Creation Failed");
+                }
+            }));
         }
 
         public void Dispose()
         {
-            _createSubscription?.Dispose();
-            //_updateSubscription?.Dispose();
             _deleteSubscription?.Dispose();
 
             // unsubscribe

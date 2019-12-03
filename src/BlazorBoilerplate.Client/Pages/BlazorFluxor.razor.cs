@@ -95,7 +95,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void CreateTodo()
         {
-            Dispatcher.Dispatch(new CreateNewToDoItemAction(this.addTodo));
+            Dispatcher.Dispatch(new CreateNewToDoItemAction(this.addTodo, null));
         }
 
         public void Dispose()
