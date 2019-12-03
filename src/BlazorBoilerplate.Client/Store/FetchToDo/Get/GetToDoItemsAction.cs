@@ -2,7 +2,7 @@
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsAction : IActionWithSideEffect
+    public class GetToDoItemsAction : ResultActionBase, IActionWithSideEffect
     {
         
     }

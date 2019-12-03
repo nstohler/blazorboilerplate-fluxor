@@ -24,8 +24,9 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
         {
             try
             {
+                Console.WriteLine($"==> EFFECT: UpdateToDoItemAction: update on server");
                 ApiResponseDto apiResponse = await _httpClient.PutJsonAsync<ApiResponseDto>("api/todo", action.TodoDto);
-                //await Task.Delay(2000); // simulate long roundtrip time
+                await Task.Delay(2000); // simulate long roundtrip time
 
                 if (!apiResponse.IsError)
                 {
@@ -33,18 +34,24 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
                 }
                 else
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(null, false, apiResponse.Message + " : " + apiResponse.StatusCode));
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(null, false,
+                        apiResponse.Message + " : " + apiResponse.StatusCode));
                 }
             }
             catch (Exception e)
             {
                 dispatcher.Dispatch(new UpdateToDoItemResultAction(null, false, e.Message));
             }
+            finally
+            {
+                Console.WriteLine($"   ==> EFFECT: UpdateToDoItemAction: update on server DONE");
+            }
         }
 
         [EffectMethod]
         public Task HandleAsync(UpdateToDoItemResultAction action, IDispatcher dispatcher)
         {
+            Console.WriteLine($"==> EFFECT: UpdateToDoItemResultAction: dispatch actions to other listeners");
             // clear selection:
             dispatcher.Dispatch(new Store.DetailEditToDoItem.Edit.EditByIdToDoItemAction(null));
             // dispatcher.Dispatch(new DetailByIdToDoItemAction(null));
@@ -63,6 +70,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
             // TODO: move back into component?
             //_matToaster.Add("Update Success", MatToastType.Success, "Todo item updated");
+
+            Console.WriteLine($"   ==> EFFECT: UpdateToDoItemResultAction: dispatch actions to other listeners DONE");
 
             return Task.CompletedTask;
         }

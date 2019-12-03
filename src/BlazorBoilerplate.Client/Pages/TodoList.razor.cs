@@ -67,7 +67,30 @@ namespace BlazorBoilerplate.Client.Pages
 
             //_subscriptions.Add(subUpdate);
 
-            Dispatcher.Dispatch(new GetToDoItemsAction());
+            //Dispatcher.Dispatch(new GetToDoItemsAction());
+            LoadTodos();
+        }
+
+        protected void LoadTodos()
+        {
+            Dispatcher.Dispatch(new GetToDoItemsAction()
+            {
+                ResultAction = (getToDoItemsResultAction) =>
+                {
+                    Console.WriteLine($"ResultAction invoked!");
+                    if (getToDoItemsResultAction.IsSuccess)
+                    {
+                        matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos", MatToastType.Success);
+                    }
+                    else
+                    {
+                        matToaster.Add(getToDoItemsResultAction.ErrorMessage, MatToastType.Danger, "Error loading todos");
+                    }
+                }
+            });
+
+            // TODO: show toast when loaded
+
         }
 
         protected async Task Update(TodoDto todo)
@@ -81,6 +104,7 @@ namespace BlazorBoilerplate.Client.Pages
                 .TakeAction<UpdateToDoItemResultAction>()
                 .Subscribe(action =>
                 {
+                    Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
                     if (action.IsSuccess)
                     {
                         matToaster.Add("Updated ToDo", MatToastType.Success);
@@ -100,7 +124,9 @@ namespace BlazorBoilerplate.Client.Pages
 
             _subscriptions.Add(_updateSubscription);
 
+            Console.WriteLine($"Update TODO: PRE");
             Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo));
+            Console.WriteLine($"Update TODO: post");
         }
 
         protected async Task Delete()

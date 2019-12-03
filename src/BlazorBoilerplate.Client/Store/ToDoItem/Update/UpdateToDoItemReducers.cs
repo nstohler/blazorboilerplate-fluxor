@@ -1,4 +1,5 @@
-﻿using Blazor.Fluxor;
+﻿using System;
+using Blazor.Fluxor;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
@@ -7,6 +8,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
         [ReducerMethod]
         public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemAction action)
         {
+            Console.WriteLine($"==> REDUCER: UpdateToDoItemAction: set processing state");
             var newState = ToDoItemStateFactory.CreateNew();
 
             // only changes need to be done here now
@@ -20,6 +22,7 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
         [ReducerMethod]
         public IToDoItemState Reduce(IToDoItemState state, UpdateToDoItemResultAction action)
         {
+            Console.WriteLine($"==> REDUCER: UpdateToDoItemResultAction: set update result: {action.IsSuccess}");
             var newState = ToDoItemStateFactory.CreateNew();
             newState.ToDoItemOperation = ToDoItemOperation.Update;
 

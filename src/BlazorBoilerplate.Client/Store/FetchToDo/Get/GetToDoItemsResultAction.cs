@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorBoilerplate.Client.Store.Extensions;
 using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsResultAction
+    public class GetToDoItemsResultAction : ResultActionBase
     {
-        public GetToDoItemsResultAction(List<TodoDto> toItems, bool isSuccess, string errorMessage)
+        public GetToDoItemsResultAction(ResultActionBase baseAction, List<TodoDto> toDoItems, bool isSuccess, string errorMessage)
         {
-            ToToItems = toItems;
-            IsSuccess = isSuccess;
+            base.ResultAction = baseAction.ResultAction;
+
+            ToDoDoItems  = toDoItems;
+            IsSuccess    = isSuccess;
             ErrorMessage = errorMessage;
         }
 
-        public List<TodoDto> ToToItems    { get; private set; }
+        public List<TodoDto> ToDoDoItems  { get; private set; }
         public bool          IsSuccess    { get; private set; }
         public string        ErrorMessage { get; private set; }
     }

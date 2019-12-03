@@ -36,7 +36,7 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
             if (action.IsSuccess)
             {
                 Console.WriteLine($"GetToDoItemsReducers:GetToDoItemsResultAction success");
-                newState.ToDoItems = action.ToToItems.ToImmutableList();
+                newState.ToDoItems = action.ToDoDoItems.ToImmutableList();
                 newState.LastSuccessFetchDateTime = DateTime.UtcNow;
             }
             else
@@ -49,6 +49,8 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
                     newState.ToDoItems = state.ToDoItems; // keep old items if there was an error loading new ones
                 }
             }
+
+
 
             return newState;
         }

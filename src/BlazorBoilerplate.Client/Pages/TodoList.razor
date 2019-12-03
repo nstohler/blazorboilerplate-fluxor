@@ -12,7 +12,15 @@
     Check out the <a href="https://github.com/enkodellc/blazorboilerplate" target="_blank">repository to view the source.</a> If you find this helpful please contribute or <a href="https://www.paypal.me/enkodellc">donate</a> to support further development.
     Delete is Protected to Admin users only.
 </p>
+<div>
+    <MatButton OnClick="@LoadTodos">Refresh</MatButton>
+</div>
 
+@if (FetchToDoItemsState.Value.ErrorMessage != null)
+{
+    <h1>Counter Error</h1>
+    <p>@FetchToDoItemsState.Value.ErrorMessage</p>
+}
 @if (FetchToDoItemsState.Value.IsLoading)
 {
     <em>Loading...</em>

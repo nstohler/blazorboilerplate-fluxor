@@ -33,19 +33,29 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
                 {
                     Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction success");
                     var todos = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto[]>(apiResponse.Result.ToString()).ToList<TodoDto>();
-                    dispatcher.Dispatch(new GetToDoItemsResultAction(todos, true, null));
+                    dispatcher.Dispatch(new GetToDoItemsResultAction(action, todos, true, null));
                 }
                 else
                 {
                     Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction failed 1");
-                    dispatcher.Dispatch(new GetToDoItemsResultAction(null, true, $"{apiResponse.Message}: {apiResponse.StatusCode}"));
+                    dispatcher.Dispatch(new GetToDoItemsResultAction(action, null, true, $"{apiResponse.Message}: {apiResponse.StatusCode}"));
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction failed ex");
-                dispatcher.Dispatch(new GetToDoItemsResultAction(null, false, e.Message));
+                dispatcher.Dispatch(new GetToDoItemsResultAction(action, null, false, e.Message));
             }
+        }
+
+        [EffectMethod]
+        public Task HandleAsync(GetToDoItemsResultAction action, IDispatcher dispatcher)
+        {
+            Console.WriteLine($"GetToDoItemsResultAction effect / start callback");
+
+            action.ResultAction?.Invoke(action);    
+
+            return Task.CompletedTask;
         }
     }
 }
