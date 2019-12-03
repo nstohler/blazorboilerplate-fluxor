@@ -22,17 +22,17 @@ namespace BlazorBoilerplate.Client.Pages
 {
     public class TodoListBase : FluxorComponent, IDisposable
     {
-        [Inject] private HttpClient Http { get; set; }
+        [Inject] private HttpClient  Http       { get; set; }
         [Inject] private IMatToaster matToaster { get; set; }
 
-        [Inject] protected IDispatcher Dispatcher { get; set; }
+        [Inject] protected IDispatcher                  Dispatcher          { get; set; }
         [Inject] protected IState<IFetchToDoItemsState> FetchToDoItemsState { get; set; }
 
         protected TodoDto createTodo = new TodoDto();
         protected TodoDto deleteTodo = null;
 
         protected bool deleteDialogOpen = false;
-        protected bool dialogIsOpen = false;
+        protected bool dialogIsOpen     = false;
 
         protected override void OnInitialized()
         {
@@ -43,19 +43,22 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void LoadTodos()
         {
-            Dispatcher.Dispatch(new GetToDoItemsAction(getToDoItemsResultAction =>
+            Dispatcher.Dispatch(new GetToDoItemsAction()
                 {
-                    Console.WriteLine($"ResultAction invoked!");
-                    if (getToDoItemsResultAction.IsSuccess)
+                    NotificationAction = action =>
                     {
-                        matToaster.Add($"Loaded {getToDoItemsResultAction.ToDoDoItems.Count} todos", MatToastType.Success);
+                        Console.WriteLine($"ResultAction invoked!");
+                        if (action.IsSuccess)
+                        {
+                            matToaster.Add($"Loaded {action.ToDoDoItems.Count} todos", MatToastType.Success);
+                        }
+                        else
+                        {
+                            matToaster.Add(action.ErrorMessage, MatToastType.Danger,
+                                "Error loading todos");
+                        }
                     }
-                    else
-                    {
-                        matToaster.Add(getToDoItemsResultAction.ErrorMessage, MatToastType.Danger,
-                            "Error loading todos");
-                    }
-                })
+                }
             );
         }
 
@@ -118,19 +121,23 @@ namespace BlazorBoilerplate.Client.Pages
                 return;
             }
 
-            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo, action =>
+            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo)
             {
-                if (action.IsSuccess)
+                NotificationAction = action =>
                 {
-                    matToaster.Add("Deleted ToDo", MatToastType.Success);
+                    if (action.IsSuccess)
+                    {
+                        matToaster.Add("Deleted ToDo", MatToastType.Success);
+                    }
+                    else
+                    {
+                        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Delete Failed");
+                    }
+
+                    deleteDialogOpen = false;
+                    deleteTodo       = null;
                 }
-                else
-                {
-                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Delete Failed");
-                }
-                deleteDialogOpen = false;
-                deleteTodo = null;
-            }));
+            });
         }
 
         protected void OpenDialog()
@@ -149,19 +156,22 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected async Task CreateTodo()
         {
-            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo, action =>
+            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo)
             {
-                if (action.IsSuccess)
+                NotificationAction = action =>
                 {
-                    matToaster.Add("Created ToDo", MatToastType.Success);
-                    dialogIsOpen = false;
-                    createTodo   = new TodoDto(); //reset todo after insert
+                    if (action.IsSuccess)
+                    {
+                        matToaster.Add("Created ToDo", MatToastType.Success);
+                        dialogIsOpen = false;
+                        createTodo   = new TodoDto(); //reset todo after insert
+                    }
+                    else
+                    {
+                        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Creation Failed");
+                    }
                 }
-                else
-                {
-                    matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Creation Failed");
-                }
-            }));
+            });
         }
 
         public void Dispose()

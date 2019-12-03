@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using BlazorBoilerplate.Client.Store.Extensions;
 
 namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
-    public class GetToDoItemsAction : ComponentNotificationActionBase<GetToDoItemsResultAction>, IActionWithSideEffect
+    public class GetToDoItemsAction :
+        IHasNotificationAction<GetToDoItemsResultAction>,
+        IActionWithSideEffect
     {
-        public GetToDoItemsAction(Action<GetToDoItemsResultAction> notificationAction) 
-            : base(notificationAction)
-        {
-        }
+        [JsonIgnore] public Action<GetToDoItemsResultAction> NotificationAction { get; set; }
     }
 }

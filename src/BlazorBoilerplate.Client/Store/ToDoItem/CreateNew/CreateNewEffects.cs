@@ -28,19 +28,19 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.CreateNew
                 {
                     var todo = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto>(apiResponse.Result.ToString());
 
-                    dispatcher.Dispatch(new CreateNewToDoItemResultAction(action, todo, true, null)); // catch, add to collection
+                    dispatcher.Dispatch(new CreateNewToDoItemResultAction(action.NotificationAction, todo, true, null)); // catch, add to collection
                     
                     // let FetchToDoState add item to its collection:
                     dispatcher.Dispatch(new AddToDoItemAction(todo));
                 }
                 else
                 {
-                    dispatcher.Dispatch(new CreateNewToDoItemResultAction(action, null, false, "CreateNewToDo failed : " + apiResponse.StatusCode));
+                    dispatcher.Dispatch(new CreateNewToDoItemResultAction(action.NotificationAction, null, false, "CreateNewToDo failed : " + apiResponse.StatusCode));
                 }
             }
             catch (Exception ex)
             {
-                dispatcher.Dispatch(new CreateNewToDoItemResultAction(action, null, false, ex.Message));
+                dispatcher.Dispatch(new CreateNewToDoItemResultAction(action.NotificationAction, null, false, ex.Message));
             }
         }
 

@@ -26,17 +26,17 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action, action.TodoDto, true, null));
+                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action.NotificationAction, action.TodoDto, true, null));
                 }
                 else
                 {
-                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action, null, false,
+                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action.NotificationAction, null, false,
                         "Delete failed : " + response.StatusCode));
                 }
             }
             catch (Exception e)
             {
-                dispatcher.Dispatch(new DeleteToDoItemResultAction(action, null, false, e.Message));
+                dispatcher.Dispatch(new DeleteToDoItemResultAction(action.NotificationAction, null, false, e.Message));
             }
         }
 

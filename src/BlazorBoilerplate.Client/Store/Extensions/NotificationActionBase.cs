@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlazorBoilerplate.Client.Store.Extensions
 {
-    public abstract class NotificationActionBase<T> : IHasNotificationAction<T>
-    {
-        [JsonIgnore] public Action<T> NotificationAction { get; set; }
-    }
+    //public abstract class NotificationActionBase<T> : IHasNotificationAction<T>
+    //{
+    //    [JsonIgnore] public Action<T> NotificationAction { get; set; }
+    //}
 }
