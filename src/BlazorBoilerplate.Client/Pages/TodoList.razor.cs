@@ -48,27 +48,11 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void LoadTodos()
         {
-            Dispatcher.Dispatch(new GetToDoItemsAction()
-                //{
-                //    NotificationAction = action =>
-                //    {
-                //        Console.WriteLine($"ResultAction invoked!");
-                //        if (action.IsSuccess)
-                //        {
-                //            matToaster.Add($"Loaded {action.ToDoDoItems.Count} todos", MatToastType.Success);
-                //        }
-                //        else
-                //        {
-                //            matToaster.Add(action.ErrorMessage, MatToastType.Danger,
-                //                "Error loading todos");
-                //        }
-                //    }
-                //}
-            );
+            Dispatcher.Dispatch(new GetToDoItemsAction());
         }
 
         [ComponentEffectMethod]
-        public void ForwardAction(GetToDoItemsResultAction action)
+        public void HandleGetToDoItemsResultAction(GetToDoItemsResultAction action)
         {
             Console.WriteLine($"ResultAction (ForwardAction) invoked!");
             if (action.IsSuccess)
@@ -88,51 +72,7 @@ namespace BlazorBoilerplate.Client.Pages
             UpdateTodo             = todo;
             UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted;
 
-            //var updateAction = new UpdateToDoItemAction(UpdateTodo)
-            //{
-            //    NotificationAction = action =>
-            //    {
-            //        Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
-            //        if (action.IsSuccess)
-            //        {
-            //            matToaster.Add("Updated ToDo", MatToastType.Success);
-            //        }
-            //        else
-            //        {
-            //            if (UpdateTodo != null)
-            //            {
-            //                UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted; // reset upon save failure
-            //            }
-
-            //            todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
-            //            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-            //            UpdateTodo = null;
-            //        }
-            //    }
-            //};
-
-
             Dispatcher.Dispatch(new UpdateToDoItemAction(UpdateTodo));
-
-            //Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo, action =>
-            //{
-            //    Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
-            //    if (action.IsSuccess)
-            //    {
-            //        matToaster.Add("Updated ToDo", MatToastType.Success);
-            //    }
-            //    else
-            //    {
-            //        if (updateTodo != null)
-            //        {
-            //            updateTodo.IsCompleted = !updateTodo.IsCompleted;   // reset upon save failure
-            //        }
-
-            //        todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
-            //        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-            //        updateTodo = null;
-            //    }
-            //}));
         }
 
         [ComponentEffectMethod]
@@ -163,24 +103,7 @@ namespace BlazorBoilerplate.Client.Pages
                 return;
             }
 
-            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo)
-            //{
-            //    NotificationAction = action =>
-            //    {
-            //        if (action.IsSuccess)
-            //        {
-            //            matToaster.Add("Deleted ToDo", MatToastType.Success);
-            //        }
-            //        else
-            //        {
-            //            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Delete Failed");
-            //        }
-
-            //        deleteDialogOpen = false;
-            //        deleteTodo       = null;
-            //    }
-            //}
-            );
+            Dispatcher.Dispatch(new DeleteToDoItemAction(deleteTodo));
         }
 
         [ComponentEffectMethod]
@@ -215,23 +138,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected async Task CreateTodo()
         {
-            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo)
-            //{
-            //    NotificationAction = action =>
-            //    {
-            //        if (action.IsSuccess)
-            //        {
-            //            matToaster.Add("Created ToDo", MatToastType.Success);
-            //            dialogIsOpen = false;
-            //            createTodo   = new TodoDto(); //reset todo after insert
-            //        }
-            //        else
-            //        {
-            //            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Creation Failed");
-            //        }
-            //    }
-            //}
-            );
+            Dispatcher.Dispatch(new CreateNewToDoItemAction(createTodo));
         }
 
         [ComponentEffectMethod]
@@ -241,7 +148,7 @@ namespace BlazorBoilerplate.Client.Pages
             {
                 matToaster.Add("Created ToDo", MatToastType.Success);
                 dialogIsOpen = false;
-                createTodo   = new TodoDto(); //reset todo after insert
+                createTodo   = new TodoDto(); // reset item after insert
             }
             else
             {
