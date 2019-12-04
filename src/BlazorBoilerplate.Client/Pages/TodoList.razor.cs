@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
 using Blazor.Fluxor.Components;
 using BlazorBoilerplate.Client.Store.DetailEditToDoItem;
+using BlazorBoilerplate.Client.Store.Extensions;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 using BlazorBoilerplate.Client.Store.FetchToDo.Get;
+using BlazorBoilerplate.Client.Store.Services;
 using BlazorBoilerplate.Client.Store.ToDoItem.CreateNew;
 using BlazorBoilerplate.Client.Store.ToDoItem.Delete;
 using BlazorBoilerplate.Client.Store.ToDoItem.Update;
 using BlazorBoilerplate.Shared.Dto;
-using Logixware.AspNet.Blazor.Fluxor;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorBoilerplate.Client.Pages
 {
-    public class TodoListBase : FluxorComponent, IDisposable
+    public class TodoListBase : FluxorComponent, IDisposable, IFluxorComponentWithReactions
     {
         [Inject] private HttpClient  Http       { get; set; }
         [Inject] private IMatToaster matToaster { get; set; }
@@ -28,7 +28,9 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected IDispatcher                  Dispatcher          { get; set; }
         [Inject] protected IState<IFetchToDoItemsState> FetchToDoItemsState { get; set; }
 
-        protected TodoDto createTodo = new TodoDto();
+        [Inject] protected ComponentNotifierService ComponentNotifierService { get; set; }
+
+    protected TodoDto createTodo = new TodoDto();
         protected TodoDto deleteTodo = null;
 
         protected bool deleteDialogOpen = false;
@@ -37,6 +39,8 @@ namespace BlazorBoilerplate.Client.Pages
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            ComponentNotifierService.Register(this);
 
             LoadTodos();
         }
@@ -60,6 +64,20 @@ namespace BlazorBoilerplate.Client.Pages
                     }
                 }
             );
+        }
+
+        public void ForwardAction(GetToDoItemsResultAction action)
+        {
+            Console.WriteLine($"ResultAction (ForwardAction) invoked!");
+            if (action.IsSuccess)
+            {
+                matToaster.Add($"Loaded {action.ToDoDoItems.Count} todos", MatToastType.Success);
+            }
+            else
+            {
+                matToaster.Add(action.ErrorMessage, MatToastType.Danger,
+                    "Error loading todos");
+            }
         }
 
         protected async Task Update(TodoDto todo)
@@ -176,6 +194,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         public void Dispose()
         {
+            ComponentNotifierService.Unregister(this);
         }
     }
 }

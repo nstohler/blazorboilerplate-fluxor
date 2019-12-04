@@ -2,8 +2,8 @@ using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Services.Contracts;
 using BlazorBoilerplate.Client.Services.Implementations;
 using BlazorBoilerplate.Client.States;
+using BlazorBoilerplate.Client.Store.Services;
 using BlazorBoilerplate.Shared.AuthorizationDefinitions;
-using Logixware.AspNet.Blazor.Fluxor;
 using MatBlazor;
 using Microsoft.AspNetCore.Blazor.Http;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -30,7 +30,7 @@ namespace BlazorBoilerplate.Client
                 options.UseDependencyInjection(typeof(Startup).Assembly);
                 options.AddMiddleware<Blazor.Fluxor.ReduxDevTools.ReduxDevToolsMiddleware>();
                 options.AddMiddleware<Blazor.Fluxor.Routing.RoutingMiddleware>();
-                options.AddReactiveStore(services);
+                //options.AddReactiveStore(services);
             });
 
             services.AddScoped<IdentityAuthenticationStateProvider>();
@@ -39,6 +39,8 @@ namespace BlazorBoilerplate.Client
             services.AddLoadingBar();
             services.Add(new ServiceDescriptor(typeof(IUserProfileApi), typeof(UserProfileApi), ServiceLifetime.Scoped));
             services.AddScoped<AppState>();
+
+            services.AddScoped<ComponentNotifierService>();
 
             services.AddMatToaster(config =>
             {

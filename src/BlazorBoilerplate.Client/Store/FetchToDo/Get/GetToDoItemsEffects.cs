@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.Extensions;
+using BlazorBoilerplate.Client.Store.Services;
 using BlazorBoilerplate.Shared.Dto;
 using Microsoft.AspNetCore.Components;
 
@@ -14,11 +15,13 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 {
     public class GetToDoItemsEffects
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient               _httpClient;
+        private readonly ComponentNotifierService _componentNotifierService;
 
-        public GetToDoItemsEffects(HttpClient httpClient)
+        public GetToDoItemsEffects(HttpClient httpClient, ComponentNotifierService componentNotifierService)
         {
-            _httpClient = httpClient;
+            _httpClient               = httpClient;
+            _componentNotifierService = componentNotifierService;
         }
 
         [EffectMethod]
@@ -30,16 +33,18 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
 
                 Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction {apiResponse.StatusCode}");
 
-                if (apiResponse.StatusCode == (int)HttpStatusCode.OK)
+                if (apiResponse.StatusCode == (int) HttpStatusCode.OK)
                 {
                     Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction success");
-                    var todos = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto[]>(apiResponse.Result.ToString()).ToList<TodoDto>();
+                    var todos = Newtonsoft.Json.JsonConvert.DeserializeObject<TodoDto[]>(apiResponse.Result.ToString())
+                        .ToList<TodoDto>();
                     dispatcher.Dispatch(new GetToDoItemsResultAction(action.NotificationAction, todos, true, null));
                 }
                 else
                 {
                     Console.WriteLine($"GetToDoItemsEffects:GetToDoItemsAction failed 1");
-                    dispatcher.Dispatch(new GetToDoItemsResultAction(action.NotificationAction, null, true, $"{apiResponse.Message}: {apiResponse.StatusCode}"));
+                    dispatcher.Dispatch(new GetToDoItemsResultAction(action.NotificationAction, null, true,
+                        $"{apiResponse.Message}: {apiResponse.StatusCode}"));
                 }
             }
             catch (Exception e)
@@ -54,7 +59,8 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
         {
             Console.WriteLine($"GetToDoItemsResultAction effect / start callback");
 
-            action.ExecuteNotifyComponent();
+            //action.ExecuteNotifyComponent();
+            _componentNotifierService.ForwardAction(action);
 
             return Task.CompletedTask;
         }

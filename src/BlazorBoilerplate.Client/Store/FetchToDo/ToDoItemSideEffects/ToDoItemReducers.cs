@@ -8,32 +8,6 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects
 {
     public class ToDoItemReducers
     {
-        //[ReducerMethod]
-        //public FetchToDoItemsState Reduce(FetchToDoItemsState state, ToDoItem.CreateNew.CreateNewToDoItemResultAction action)
-        //{
-        //    if (!action.IsSuccess)
-        //    {
-        //        return state;
-        //    }
-
-        //    var newState = FetchToDoItemsState.CreateNew();
-
-        //    if (state.ToDoItems == null)
-        //    {
-        //        var todos = new List<TodoDto>() {action.Todo};
-
-        //        newState.ToDoItems = todos.ToImmutableList();
-
-        //        return newState;
-        //    }
-
-        //    // add at end
-        //    var toDoItems = state.ToDoItems.Add(action.Todo);
-        //    newState.ToDoItems = toDoItems.ToImmutableList();
-
-        //    return newState;
-        //}
-
         [ReducerMethod]
         public IFetchToDoItemsState Reduce(IFetchToDoItemsState state, AddToDoItemAction action)
         {
