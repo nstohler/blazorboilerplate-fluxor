@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor.Fluxor;
+using BlazorBoilerplate.Client.Store.Services;
 using BlazorBoilerplate.Shared.Dto;
 using MatBlazor;
 using Microsoft.AspNetCore.Components;
@@ -10,12 +11,15 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
     public class UpdateToDoItemEffects
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient               _httpClient;
+        private readonly ComponentNotifierService _componentNotifierService;
+
         //private readonly IMatToaster _matToaster;
 
-        public UpdateToDoItemEffects(HttpClient httpClient)
+        public UpdateToDoItemEffects(HttpClient httpClient, ComponentNotifierService componentNotifierService)
         {
-            _httpClient = httpClient;
+            _httpClient               = httpClient;
+            _componentNotifierService = componentNotifierService;
             //_matToaster = matToaster;
         }
 
@@ -30,7 +34,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
                 if (!apiResponse.IsError)
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action.NotificationAction, action.TodoDto, true, null));
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action.NotificationAction, action.TodoDto, true,
+                        null));
                 }
                 else
                 {
@@ -74,7 +79,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
             Console.WriteLine($"   ==> EFFECT: UpdateToDoItemResultAction: dispatch actions to other listeners DONE");
 
-            action.ExecuteNotifyComponent();
+            //action.ExecuteNotifyComponent();
+            _componentNotifierService.ForwardAction(action);
 
             return Task.CompletedTask;
         }

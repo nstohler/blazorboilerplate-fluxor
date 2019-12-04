@@ -5,16 +5,19 @@ using Blazor.Fluxor;
 using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Details;
 using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit;
 using BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects;
+using BlazorBoilerplate.Client.Store.Services;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 {
-    public class DeleteToDoItemEffects 
+    public class DeleteToDoItemEffects
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient               _httpClient;
+        private readonly ComponentNotifierService _componentNotifierService;
 
-        public DeleteToDoItemEffects(HttpClient httpClient)
+        public DeleteToDoItemEffects(HttpClient httpClient, ComponentNotifierService componentNotifierService)
         {
-            _httpClient = httpClient;
+            _httpClient               = httpClient;
+            _componentNotifierService = componentNotifierService;
         }
 
         [EffectMethod]
@@ -26,7 +29,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action.NotificationAction, action.TodoDto, true, null));
+                    dispatcher.Dispatch(new DeleteToDoItemResultAction(action.NotificationAction, action.TodoDto, true,
+                        null));
                 }
                 else
                 {
@@ -56,7 +60,8 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Delete
             dispatcher.Dispatch(new DetailByIdToDoItemAction(null));
             dispatcher.Dispatch(new EditByIdToDoItemAction(null));
 
-            action.ExecuteNotifyComponent();
+            //action.ExecuteNotifyComponent();
+            _componentNotifierService.ForwardAction(action);
 
             return Task.CompletedTask;
         }

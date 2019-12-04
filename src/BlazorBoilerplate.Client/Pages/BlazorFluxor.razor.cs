@@ -9,6 +9,7 @@ using BlazorBoilerplate.Client.Store.DetailEditToDoItem.Edit;
 using BlazorBoilerplate.Client.Store.Extensions;
 using BlazorBoilerplate.Client.Store.FetchToDo;
 using BlazorBoilerplate.Client.Store.FetchToDo.Get;
+using BlazorBoilerplate.Client.Store.Services;
 using BlazorBoilerplate.Client.Store.ToDoItem;
 using BlazorBoilerplate.Client.Store.ToDoItem.CreateNew;
 using BlazorBoilerplate.Client.Store.ToDoItem.Update;
@@ -30,11 +31,15 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected IState<IDetailEditToDoItemState> DetailEditToDoItemState { get; set; }
         [Inject] protected IState<IToDoItemState>           ToDoItemState           { get; set; }
 
+        [Inject] protected ComponentNotifierService ComponentNotifierService { get; set; }
+
         protected TodoDto addTodo { get; set; } = new TodoDto();
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
+
+            ComponentNotifierService.Register(this);
 
             if (FetchToDoItemsState.Value.ToDoItems == null)
             {
@@ -82,6 +87,8 @@ namespace BlazorBoilerplate.Client.Pages
         public void Dispose()
         {
             Console.WriteLine("Disposing...");
+
+            ComponentNotifierService.Unregister(this);
 
             // disconnect events
             //ToDoItemState.StateChanged -= OnToDoItemStateOnStateChanged;
