@@ -31,7 +31,7 @@ namespace BlazorBoilerplate.Client.Pages
         [Inject] protected ComponentNotifierService ComponentNotifierService { get; set; }
 
         protected TodoDto createTodo = new TodoDto();
-        protected TodoDto UpdateTodo = null;
+        //protected TodoDto UpdateTodo = null;
         protected TodoDto deleteTodo = null;
 
         protected bool deleteDialogOpen = false;
@@ -48,7 +48,14 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected void LoadTodos()
         {
-            Dispatcher.Dispatch(new GetToDoItemsAction());
+            Dispatcher.Dispatch(new GetToDoItemsAction()
+            {
+                NotificationAction = action =>
+                {
+                    Console.WriteLine(
+                        $"++++++ GetToDoItemsAction ResultAction invoked {action.ToDoDoItems.Count}!");
+                }
+            });
         }
 
         [ComponentEffectMethod]
@@ -68,33 +75,54 @@ namespace BlazorBoilerplate.Client.Pages
 
         protected async Task Update(TodoDto todo)
         {
-            //var updateTodo = todo;
-            UpdateTodo             = todo;
-            UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted;
+            var updateTodo = todo;
+            updateTodo = todo;
+            updateTodo.IsCompleted = !updateTodo.IsCompleted;
 
-            Dispatcher.Dispatch(new UpdateToDoItemAction(UpdateTodo));
-        }
-
-        [ComponentEffectMethod]
-        public void HandleUpdateResultAction(UpdateToDoItemResultAction action)
-        {
-            Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
-            if (action.IsSuccess)
-            {
-                matToaster.Add("Updated ToDo", MatToastType.Success);
-            }
-            else
-            {
-                if (UpdateTodo != null)
+            Dispatcher.Dispatch(new UpdateToDoItemAction(updateTodo)
                 {
-                    UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted; // reset upon save failure
-                }
+                    NotificationAction = action =>
+                    {
+                        Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
+                        if (action.IsSuccess)
+                        {
+                            matToaster.Add("Updated ToDo", MatToastType.Success);
+                        }
+                        else
+                        {
+                            if (updateTodo != null)
+                            {
+                                updateTodo.IsCompleted = !updateTodo.IsCompleted; // reset upon save failure
+                            }
 
-                UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted; //update failed so reset IsCompleted
-                matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
-                UpdateTodo = null;
-            }
+                            todo.IsCompleted = !todo.IsCompleted; //update failed so reset IsCompleted
+                            matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
+                            updateTodo = null;
+                        }
+                    }
+                });
         }
+
+        //[ComponentEffectMethod]
+        //public void HandleUpdateResultAction(UpdateToDoItemResultAction action)
+        //{
+        //    Console.WriteLine($"-- Update TODO: Observable UpdateToDoItemResultAction");
+        //    if (action.IsSuccess)
+        //    {
+        //        matToaster.Add("Updated ToDo", MatToastType.Success);
+        //    }
+        //    else
+        //    {
+        //        if (UpdateTodo != null)
+        //        {
+        //            UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted; // reset upon save failure
+        //        }
+
+        //        UpdateTodo.IsCompleted = !UpdateTodo.IsCompleted; //update failed so reset IsCompleted
+        //        matToaster.Add(action.ErrorMessage, MatToastType.Danger, "Todo Save Failed");
+        //        UpdateTodo = null;
+        //    }
+        //}
 
         protected async Task Delete()
         {

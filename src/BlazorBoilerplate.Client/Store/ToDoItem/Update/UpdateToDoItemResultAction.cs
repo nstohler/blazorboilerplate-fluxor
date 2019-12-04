@@ -6,28 +6,26 @@ using EnsureThat;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
-    public class UpdateToDoItemResultAction : 
-        IHasExecuteNotifyComponent<UpdateToDoItemResultAction>, 
-        IActionWithSideEffect
+    public class UpdateToDoItemResultAction : IHasComponentNotificationAction, IActionWithSideEffect
     {
-        public UpdateToDoItemResultAction(Action<UpdateToDoItemResultAction> notificationAction, TodoDto todoDto,
-            bool isSuccess, string errorMessage)
+        public UpdateToDoItemResultAction(UpdateToDoItemAction action,
+            TodoDto todoDto, bool isSuccess, string errorMessage)
         {
-            NotificationAction = notificationAction;
-            TodoDto            = todoDto;
-            IsSuccess          = isSuccess;
-            ErrorMessage       = errorMessage;
+            Action       = action;
+            TodoDto      = todoDto;
+            IsSuccess    = isSuccess;
+            ErrorMessage = errorMessage;
         }
+
+        [JsonIgnore] private UpdateToDoItemAction Action { get; set; }
 
         public TodoDto TodoDto      { get; private set; }
         public bool    IsSuccess    { get; private set; }
         public string  ErrorMessage { get; private set; }
 
-        [JsonIgnore] public Action<UpdateToDoItemResultAction> NotificationAction { get; private set; }
-
-        public void ExecuteNotifyComponent()
+        public void InvokeAction()
         {
-            NotificationAction?.Invoke(this);
+            Action?.NotificationAction?.Invoke(this);
         }
     }
 }

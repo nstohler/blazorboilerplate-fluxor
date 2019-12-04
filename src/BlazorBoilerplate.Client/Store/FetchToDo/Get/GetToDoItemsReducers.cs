@@ -50,8 +50,6 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.Get
                 }
             }
 
-
-
             return newState;
         }
     }

@@ -34,18 +34,18 @@ namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 
                 if (!apiResponse.IsError)
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action.NotificationAction, action.TodoDto, true,
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action, action.TodoDto, true,
                         null));
                 }
                 else
                 {
-                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action.NotificationAction, null, false,
+                    dispatcher.Dispatch(new UpdateToDoItemResultAction(action, null, false,
                         apiResponse.Message + " : " + apiResponse.StatusCode));
                 }
             }
             catch (Exception e)
             {
-                dispatcher.Dispatch(new UpdateToDoItemResultAction(action.NotificationAction, null, false, e.Message));
+                dispatcher.Dispatch(new UpdateToDoItemResultAction(action, null, false, e.Message));
             }
             finally
             {

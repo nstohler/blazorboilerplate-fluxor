@@ -5,8 +5,7 @@ using BlazorBoilerplate.Shared.Dto;
 
 namespace BlazorBoilerplate.Client.Store.ToDoItem.Update
 {
-    public class UpdateToDoItemAction : //NotificationActionBase<UpdateToDoItemResultAction>,
-        IHasNotificationAction<UpdateToDoItemResultAction>, 
+    public class UpdateToDoItemAction :
         IActionWithSideEffect
     {
         public TodoDto TodoDto { get; private set; }

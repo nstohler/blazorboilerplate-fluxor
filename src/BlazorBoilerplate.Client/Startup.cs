@@ -30,6 +30,7 @@ namespace BlazorBoilerplate.Client
                 options.UseDependencyInjection(typeof(Startup).Assembly);
                 options.AddMiddleware<Blazor.Fluxor.ReduxDevTools.ReduxDevToolsMiddleware>();
                 options.AddMiddleware<Blazor.Fluxor.Routing.RoutingMiddleware>();
+                options.AddMiddleware<ComponentNotifierMiddleware>();
                 //options.AddReactiveStore(services);
             });
 

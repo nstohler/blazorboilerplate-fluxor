@@ -34,6 +34,12 @@ namespace BlazorBoilerplate.Client.Store.Services
 
         public void ForwardAction(object action)
         {
+            if (action is IHasComponentNotificationAction invokeAction)
+            {
+                Console.WriteLine($"+++ Detected IHasComponentNotificationAction...invoking!");
+                invokeAction.InvokeAction();
+            }
+
             foreach (var registeredComponent in _registeredComponents)
             {
                 // _typesImplementingIFluxorComponentWithReactions
