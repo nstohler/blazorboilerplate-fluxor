@@ -11,22 +11,22 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects
         [ReducerMethod]
         public IFetchToDoItemsState Reduce(IFetchToDoItemsState state, AddToDoItemAction action)
         {
-            var newState = FetchToDoItemsStateFactory.CreateNew();
+            var clonedState = (FetchToDoItemsState)FastDeepCloner.DeepCloner.Clone(state);
 
             if (state.ToDoItems == null)
             {
                 var todos = new List<TodoDto>() { action.TodoDto };
 
-                newState.ToDoItems = todos.ToImmutableList();
+                clonedState.ToDoItems = todos.ToImmutableList();
 
-                return newState;
+                return clonedState;
             }
 
             // add at end
             var toDoItems = state.ToDoItems.Add(action.TodoDto);
-            newState.ToDoItems = toDoItems.ToImmutableList();
+            clonedState.ToDoItems = toDoItems.ToImmutableList();
 
-            return newState;
+            return clonedState;
         }
 
         [ReducerMethod]
@@ -34,11 +34,11 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects
         {
             var toDoItems = state.ToDoItems.Where(x => x.Id != action.TodoDto.Id).ToList();
 
-            var newState = FetchToDoItemsStateFactory.CreateNew();
+            var clonedState = (FetchToDoItemsState)FastDeepCloner.DeepCloner.Clone(state);
 
-            newState.ToDoItems = toDoItems.ToImmutableList();
+            clonedState.ToDoItems = toDoItems.ToImmutableList();
 
-            return newState;
+            return clonedState;
         }
 
         [ReducerMethod]
@@ -61,11 +61,12 @@ namespace BlazorBoilerplate.Client.Store.FetchToDo.ToDoItemSideEffects
                 toDoItems.Add(action.TodoDto);
             }
 
-            var newState = FetchToDoItemsStateFactory.CreateNew();
+            //var newState = FetchToDoItemsStateFactory.CreateNew();
+            var clonedState = (FetchToDoItemsState)FastDeepCloner.DeepCloner.Clone(state);
 
-            newState.ToDoItems = toDoItems.ToImmutableList();
+            clonedState.ToDoItems = toDoItems.ToImmutableList();
 
-            return newState;
+            return clonedState;
         }
     }
 }

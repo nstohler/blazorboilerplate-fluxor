@@ -56,6 +56,8 @@ namespace BlazorBoilerplate.Client
 
         public void Configure(IComponentsApplicationBuilder app)
         {
+            // Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTc4Njk1QDMxMzcyZTMzMmUzMFlxK1hFNmxUb1BzUU9Wd2VFYzRsR1BkaGZLbW9Ca3Fpak9UdVJiN01tTTg9;MTc4Njk2QDMxMzcyZTMzMmUzMFlxK1hFNmxUb1BzUU9Wd2VFYzRsR1BkaGZLbW9Ca3Fpak9UdVJiN01tTTg9");
+
             WebAssemblyHttpMessageHandler.DefaultCredentials = FetchCredentialsOption.Include;
             app.UseLoadingBar();
             app.AddComponent<App>("app");
