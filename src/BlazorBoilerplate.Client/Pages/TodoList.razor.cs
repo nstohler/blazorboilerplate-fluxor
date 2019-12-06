@@ -41,7 +41,7 @@ namespace BlazorBoilerplate.Client.Pages
         {
             base.OnInitialized();
 
-            ComponentNotifierService.Register(this);
+            ComponentNotifierService.Subscribe(this);
 
             LoadTodos();
         }
@@ -186,7 +186,7 @@ namespace BlazorBoilerplate.Client.Pages
 
         public void Dispose()
         {
-            ComponentNotifierService.Unregister(this);
+            ComponentNotifierService.Unsubscribe(this);
         }
     }
 }

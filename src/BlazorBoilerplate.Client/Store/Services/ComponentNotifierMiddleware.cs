@@ -27,9 +27,7 @@ namespace BlazorBoilerplate.Client.Store.Services
 
             if (action is ComponentNotificationAction componentNotificationAction)
             {
-                
-
-                Console.WriteLine($"Detected ComponentNotificationAction...forwarding {componentNotificationAction.Action}");
+                // Console.WriteLine($"Detected ComponentNotificationAction...forwarding {componentNotificationAction.Action}");
                 _componentNotifierService.ForwardAction(componentNotificationAction.Action);
             }
 

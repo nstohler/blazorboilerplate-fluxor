@@ -39,7 +39,7 @@ namespace BlazorBoilerplate.Client.Pages
         {
             base.OnInitialized();
 
-            ComponentNotifierService.Register(this);
+            ComponentNotifierService.Subscribe(this);
 
             if (FetchToDoItemsState.Value.ToDoItems == null)
             {
@@ -88,7 +88,7 @@ namespace BlazorBoilerplate.Client.Pages
         {
             Console.WriteLine("Disposing...");
 
-            ComponentNotifierService.Unregister(this);
+            ComponentNotifierService.Unsubscribe(this);
 
             // disconnect events
             //ToDoItemState.StateChanged -= OnToDoItemStateOnStateChanged;

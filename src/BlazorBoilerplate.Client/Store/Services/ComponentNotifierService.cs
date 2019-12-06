@@ -22,21 +22,22 @@ namespace BlazorBoilerplate.Client.Store.Services
         
         private readonly HashSet<IFluxorComponentWithReactions> _registeredComponents = new HashSet<IFluxorComponentWithReactions>();
 
-        public void Register(IFluxorComponentWithReactions component)
+        public void Subscribe(IFluxorComponentWithReactions component)
         {
             _registeredComponents.Add(component);
         }
 
-        public void Unregister(IFluxorComponentWithReactions component)
+        public void Unsubscribe(IFluxorComponentWithReactions component)
         {
             _registeredComponents.Remove(component);
         }
 
         public void ForwardAction(object action)
         {
+            // if there is an action to invoke, do that first!
             if (action is IHasComponentNotificationAction invokeAction)
             {
-                Console.WriteLine($"+++ Detected IHasComponentNotificationAction...invoking!");
+                // Console.WriteLine($"+++ Detected IHasComponentNotificationAction...invoking!");
                 invokeAction.InvokeAction();
             }
 
